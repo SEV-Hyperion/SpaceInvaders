@@ -1,4 +1,4 @@
-package com.youtube.invaders.entity;
+package com.youtube.invaders.entity.enemy;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;

@@ -1,4 +1,4 @@
-package com.youtube.invaders.entity;
+package com.youtube.invaders.entity.enemy;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -10,16 +10,16 @@ import com.badlogic.gdx.math.Vector2;
 import com.youtube.invaders.MainGame;
 import com.youtube.invaders.TextureManager;
 
-public class Enemy extends Entity {
+public class Enemy2 extends Enemy {
 	// ==============================================================
 	// Texture Atlas Management
 	// =============================================================
 	// public static Texture texture;
 
-	public Enemy(Vector2 pos, Vector2 direction, int type) {
+	public Enemy2(Vector2 pos, Vector2 direction, int type) {
 
-		super(TextureManager.ENEMY0, pos, direction, type);
-		TextureRegion AR = (TextureManager.instance.atlas.findRegion("enemy3"));
+		super( pos, direction, type);
+		TextureRegion AR = (TextureManager.instance.atlas.findRegion("enemy2"));
 		 sprite = new Sprite(AR);
 
 	}

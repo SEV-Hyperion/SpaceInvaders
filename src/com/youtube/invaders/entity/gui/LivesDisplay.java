@@ -1,4 +1,4 @@
-package com.youtube.invaders.entity;
+package com.youtube.invaders.entity.gui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.youtube.invaders.MainGame;
 import com.youtube.invaders.TextureManager;
+import com.youtube.invaders.entity.Entity;
+import com.youtube.invaders.entity.EntityManager;
 import com.yutube.invaders.camera.OrthoCamera;
 
 public class LivesDisplay extends Entity {

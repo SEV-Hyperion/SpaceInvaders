@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.youtube.invaders.MainGame;
 import com.youtube.invaders.entity.EntityManager;
-import com.youtube.invaders.entity.Player;
+import com.youtube.invaders.entity.player.Player;
 import com.yutube.invaders.camera.OrthoCamera;
 
 public class GameScreen extends Screen {
