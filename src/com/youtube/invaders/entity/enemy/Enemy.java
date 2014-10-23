@@ -2,14 +2,13 @@ package com.youtube.invaders.entity.enemy;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.youtube.invaders.MainGame;
 import com.youtube.invaders.TextureManager;
 import com.youtube.invaders.entity.Entity;
+import com.youtube.invaders.screen.GameScreen;
 
 public abstract class Enemy extends Entity {
 	// ==============================================================
@@ -17,6 +16,8 @@ public abstract class Enemy extends Entity {
 	// =============================================================
 	// public static Texture texture;
 
+	private float speed = 1;
+	
 	public Enemy(Vector2 pos, Vector2 direction, int type) {
 
 		super(TextureManager.ENEMY0, pos, direction, type);
@@ -27,7 +28,7 @@ public abstract class Enemy extends Entity {
 
 	@Override
 	public void update() {
-		pos.add(direction);
+		pos.add(getNewDirection().mul(speed));// TODO add enemy behaviour
 		if (pos.y <= -TextureManager.ENEMY0.getHeight()) {
 			float x = MathUtils.random(0, MainGame.WIDTH
 					- TextureManager.ENEMY0.getWidth());
@@ -35,6 +36,22 @@ public abstract class Enemy extends Entity {
 			pos.set(x, MathUtils.random(MainGame.HEIGHT, MainGame.HEIGHT * 2));
 		}
 
+	}
+
+	protected Vector2 getNewDirection() {
+		Vector2 playerPos = GameScreen.getEntityManager().getAnimatedPlayer().getPosition();
+		float playerX=0;
+		float playerY=0;
+		if(playerPos!= null){
+			playerX = playerPos.x;
+			playerY = playerPos.y;
+		}
+		
+		float newX = playerX-pos.x;
+		float newY = playerY-pos.y;
+		Vector2 newDirection = new Vector2(newX, newY);
+		newDirection.nor();
+		return newDirection;
 	}
 
 	private  Texture getTextureEnemy() {

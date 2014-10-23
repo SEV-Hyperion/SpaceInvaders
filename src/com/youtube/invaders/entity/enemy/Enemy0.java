@@ -24,17 +24,17 @@ public class Enemy0 extends Enemy {
 
 	}
 
-	@Override
-	public void update() {
-		pos.add(direction);
-		if (pos.y <= -TextureManager.ENEMY0.getHeight()) {
-			float x = MathUtils.random(0, MainGame.WIDTH
-					- TextureManager.ENEMY0.getWidth());
-
-			pos.set(x, MathUtils.random(MainGame.HEIGHT, MainGame.HEIGHT * 2));
-		}
-
-	}
+//	@Override
+//	public void update() {
+//		pos.add(direction);
+//		if (pos.y <= -TextureManager.ENEMY0.getHeight()) {
+//			float x = MathUtils.random(0, MainGame.WIDTH
+//					- TextureManager.ENEMY0.getWidth());
+//
+//			pos.set(x, MathUtils.random(MainGame.HEIGHT, MainGame.HEIGHT * 2));
+//		}
+//
+//	}
 
 	private  Texture getTextureEnemy() {
 

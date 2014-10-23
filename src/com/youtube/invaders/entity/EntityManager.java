@@ -25,6 +25,11 @@ import com.youtube.invaders.entity.player.Player;
 import com.youtube.invaders.screen.GameOverScreen;
 import com.youtube.invaders.screen.ScreenManager;
 import com.yutube.invaders.camera.OrthoCamera;
+/**
+ * ¿Deberia ser Singleton?
+ * @author Daniel
+ *
+ */
 
 public class EntityManager {
 
@@ -124,7 +129,7 @@ public class EntityManager {
 			for (Missile m : getMissiles()) {
 				if (e.getBounds().overlaps(m.getBounds())) {
 					entities.removeValue(e, false);
-					// entities.removeValue(m, false);
+					entities.removeValue(m, false); // destroy missile on hit
 					MainGame.score += 1;
 					killed.play();
 					if (gameOver()) {
@@ -140,6 +145,7 @@ public class EntityManager {
 
 				// Collision with enemy. Decrement Live Counter and erase enemy
 				entities.removeValue(e, false);
+				
 				livesDisplay.setLives(livesDisplay.getLives() - 1);
 				hit.play();
 				if (livesDisplay.getLives() == 0) {
@@ -200,4 +206,11 @@ public class EntityManager {
 		}
 	}
 
+	// MY METHODS
+	public AnimatedPlayer getAnimatedPlayer(){
+		return animatedPlayer;
+	}
+	
+	
+	
 }

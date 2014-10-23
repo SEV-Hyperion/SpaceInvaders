@@ -19,16 +19,19 @@ public class GameScreen extends Screen {
 
 	public Sound gameLoopSound;
 
-	private EntityManager entityManager;
+	private static EntityManager entityManager = null;
 
 	@Override
 	public void create() {
 		// System.out.println("Created");
 		camera = new OrthoCamera();
-		entityManager = new EntityManager(100, camera);
 		gameLoopSound = Gdx.audio.newSound(Gdx.files
 				.internal("sounds/gameloopsound.mp3"));
 		gameLoopSound.loop();
+		entityManager = new EntityManager(100, camera);
+//		gameLoopSound = Gdx.audio.newSound(Gdx.files
+//				.internal("sounds/gameloopsound.mp3"));
+//		gameLoopSound.loop();//TODO remove this later
 
 		cameraGUI = new OrthographicCamera(MainGame.VIEWPORT_GUI_WIDTH,
 				MainGame.VIEWPORT_GUI_HEIGHT);
@@ -88,6 +91,12 @@ public class GameScreen extends Screen {
 	public void resume() {
 		System.out.println("Resumed");
 		gameLoopSound.loop();
+	}
+	
+	//
+	
+	public static EntityManager getEntityManager(){
+		return entityManager;
 	}
 
 }

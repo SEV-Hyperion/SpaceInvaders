@@ -33,7 +33,7 @@ public class MainGame implements ApplicationListener {
 
 	// =========================================================================
 	// Lives Management
-	public static final int LIVES_START = 3;
+	public static final int LIVES_START = 5;
 	public int lives =0;
 	// =========================================================================
 

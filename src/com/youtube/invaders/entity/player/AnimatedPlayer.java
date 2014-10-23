@@ -108,6 +108,10 @@ public class AnimatedPlayer extends Entity {
 	
 	}
 
+	private static int MAGAZINE_SIZE = 5;
+	private int currentMagazine = 5;
+	private static int RELOAD_TIME = 2000;
+	
 	@Override
 	public void update() {
 
@@ -115,18 +119,26 @@ public class AnimatedPlayer extends Entity {
 		currentFrame = flyAnimation.getKeyFrame(stateTime, true); // #16
 		pos.add(direction);
 		
-camera.update();		
+		camera.update();		
 			
 			setDirection(touchpad.getKnobPercentX()*CHARACTER_SPEED, touchpad.getKnobPercentY()*CHARACTER_SPEED);
 		
 		if(Gdx.input.isKeyPressed(Keys.SPACE))
 		{
-			if (System.currentTimeMillis() - lastFire >= 500) {
+			if (System.currentTimeMillis() - lastFire >= 500 && currentMagazine>0) {
 
 				entityManager.addEntity(new Missile(new Vector2(pos.x
 						+ TextureManager.PLAYER.getWidth() / 4, pos.y)));
 				lastFire = System.currentTimeMillis();
+				currentMagazine--;
 			}
+			else{
+				if(System.currentTimeMillis() - lastFire >= RELOAD_TIME && currentMagazine==0){
+					currentMagazine=MAGAZINE_SIZE;
+				}
+			}
+		}else if(Gdx.input.isKeyPressed(Keys.R)){
+			
 		}
 	}
 

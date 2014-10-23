@@ -16,6 +16,7 @@ public class Enemy1 extends Enemy {
 	// =============================================================
 	// public static Texture texture;
 
+	private float speed = 5;
 	public Enemy1(Vector2 pos, Vector2 direction, int type) {
 
 		super( pos, direction, type);
@@ -23,10 +24,10 @@ public class Enemy1 extends Enemy {
 		 sprite = new Sprite(AR);
 
 	}
-
+	
 	@Override
 	public void update() {
-		pos.add(direction);
+		pos.add(getNewDirection().mul(speed));
 		if (pos.y <= -TextureManager.ENEMY0.getHeight()) {
 			float x = MathUtils.random(0, MainGame.WIDTH
 					- TextureManager.ENEMY0.getWidth());
@@ -35,7 +36,6 @@ public class Enemy1 extends Enemy {
 		}
 
 	}
-
 	private  Texture getTextureEnemy() {
 
 		TextureRegion AR = (TextureManager.instance.atlas.findRegion("enemy3"));
