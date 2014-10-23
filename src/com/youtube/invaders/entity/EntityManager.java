@@ -73,7 +73,6 @@ public class EntityManager {
 				enemy = (Enemy) (new Enemy0(new Vector2(x, y), new Vector2(0,
 						-speed), type));
 				break;
-
 			case 1:
 				enemy = (Enemy) (new Enemy1(new Vector2(x, y), new Vector2(0,
 						-speed), type));
@@ -101,10 +100,9 @@ public class EntityManager {
 
 		for (Entity e : entities)
 			e.update();
-		// player.update();
 		animatedPlayer.update();
 		livesDisplay.update();
-		// textGUI.update();
+//		textGUI.update();
 		checkCollisions();
 	}
 

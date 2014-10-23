@@ -16,19 +16,20 @@ public abstract class Enemy extends Entity {
 	// =============================================================
 	// public static Texture texture;
 
-	private float speed = 1;
+	protected float speed = 1;
+	protected TextureRegion AR;
 	
 	public Enemy(Vector2 pos, Vector2 direction, int type) {
 
 		super(TextureManager.ENEMY0, pos, direction, type);
-		TextureRegion AR = (TextureManager.instance.atlas.findRegion("enemy"));
-		 sprite = new Sprite(AR);
+		AR = (TextureManager.instance.atlas.findRegion("enemy"));
+		sprite = new Sprite(AR);
 
 	}
 
 	@Override
 	public void update() {
-		pos.add(getNewDirection().mul(speed));// TODO add enemy behaviour
+		pos.add(getNewDirection().mul(speed));
 		if (pos.y <= -TextureManager.ENEMY0.getHeight()) {
 			float x = MathUtils.random(0, MainGame.WIDTH
 					- TextureManager.ENEMY0.getWidth());
@@ -55,15 +56,12 @@ public abstract class Enemy extends Entity {
 	}
 
 	private  Texture getTextureEnemy() {
-
-		TextureRegion AR = (TextureManager.instance.atlas.findRegion("enemy0"));
-		 sprite = new Sprite(AR);
+		sprite = new Sprite(AR);
 		//return s.getTexture();
 
 		switch (type) {
 		case 0:
 			return TextureManager.ENEMY0;
-
 		case 1:
 			return TextureManager.ENEMY1;
 		case 2:

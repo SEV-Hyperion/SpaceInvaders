@@ -138,7 +138,7 @@ public class AnimatedPlayer extends Entity {
 				}
 			}
 		}else if(Gdx.input.isKeyPressed(Keys.R)){
-			
+			// TODO add reload support
 		}
 	}
 

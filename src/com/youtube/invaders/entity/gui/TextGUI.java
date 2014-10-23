@@ -1,7 +1,6 @@
 package com.youtube.invaders.entity.gui;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -11,7 +10,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.youtube.invaders.MainGame;
 import com.youtube.invaders.TextureManager;
 import com.youtube.invaders.entity.Entity;
-import com.yutube.invaders.camera.OrthoCamera;
 
 public class TextGUI extends Entity {
 	public AssetFonts fonts;
