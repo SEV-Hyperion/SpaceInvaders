@@ -19,7 +19,7 @@ public class Enemy3 extends Enemy {
 	public Enemy3(Vector2 pos, Vector2 direction, int type) {
 
 		super( pos, direction, type);
-		TextureRegion AR = (TextureManager.instance.atlas.findRegion("enemy"));
+		TextureRegion AR = (TextureManager.instance.atlas.findRegion("enemy3"));
 		 sprite = new Sprite(AR);
 
 	}

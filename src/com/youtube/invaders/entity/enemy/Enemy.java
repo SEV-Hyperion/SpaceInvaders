@@ -11,7 +11,7 @@ import com.youtube.invaders.MainGame;
 import com.youtube.invaders.TextureManager;
 import com.youtube.invaders.entity.Entity;
 
-public class Enemy extends Entity {
+public abstract class Enemy extends Entity {
 	// ==============================================================
 	// Texture Atlas Management
 	// =============================================================
@@ -20,7 +20,7 @@ public class Enemy extends Entity {
 	public Enemy(Vector2 pos, Vector2 direction, int type) {
 
 		super(TextureManager.ENEMY0, pos, direction, type);
-		TextureRegion AR = (TextureManager.instance.atlas.findRegion("enemy3"));
+		TextureRegion AR = (TextureManager.instance.atlas.findRegion("enemy"));
 		 sprite = new Sprite(AR);
 
 	}
@@ -39,7 +39,7 @@ public class Enemy extends Entity {
 
 	private  Texture getTextureEnemy() {
 
-		TextureRegion AR = (TextureManager.instance.atlas.findRegion("enemy3"));
+		TextureRegion AR = (TextureManager.instance.atlas.findRegion("enemy0"));
 		 sprite = new Sprite(AR);
 		//return s.getTexture();
 

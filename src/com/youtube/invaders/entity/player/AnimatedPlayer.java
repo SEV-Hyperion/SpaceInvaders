@@ -8,7 +8,11 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.youtube.invaders.MainGame;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
+import com.badlogic.gdx.scenes.scene2d.ui.Touchpad.TouchpadStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.youtube.invaders.TextureManager;
 import com.youtube.invaders.entity.Entity;
 import com.youtube.invaders.entity.EntityManager;
@@ -19,8 +23,16 @@ public class AnimatedPlayer extends Entity {
 	// =======================================================================
 	// It is basicallly , a Player
 	// =======================================================================
+	private final int CHARACTER_SPEED=250;
 	private EntityManager entityManager;
 	private long lastFire;
+	private Stage stage;
+	private SpriteBatch batch;
+	private Touchpad touchpad;
+	private TouchpadStyle touchpadStyle = new TouchpadStyle();
+	private Skin touchpadSkin = new Skin();
+	private Drawable touchBackground;
+	private Drawable touchKnob;
 	
 
 	private OrthoCamera camera;
@@ -60,6 +72,39 @@ public class AnimatedPlayer extends Entity {
 		stateTime = 0f; 
 		// ==============================================================================
 
+		
+		//======================================Jostick=================================
+		
+				batch = new SpriteBatch();
+				//Create camera
+				float aspectRatio = (float) Gdx.graphics.getWidth() / (float) Gdx.graphics.getHeight();
+				camera.setToOrtho(false, 10f*aspectRatio, 10f);
+				
+				//Create a touchpad skin	
+				touchpadSkin = new Skin();
+				//Set background image
+				touchpadSkin.add("touchBackground", new Texture(Gdx.files.internal("touchBackground.png")));
+				//Set knob image
+				touchpadSkin.add("touchKnob", new Texture(Gdx.files.internal("touchKnob.png")));
+				//Create TouchPad Style
+				touchpadStyle = new TouchpadStyle();
+				//Create Drawable's from TouchPad skin
+				touchBackground = touchpadSkin.getDrawable("touchBackground");
+				touchKnob = touchpadSkin.getDrawable("touchKnob");
+				//Apply the Drawables to the TouchPad Style
+				touchpadStyle.background = touchBackground;
+				touchpadStyle.knob = touchKnob;
+				//Create new TouchPad with the created style
+				touchpad = new Touchpad(10, touchpadStyle);
+				//setBounds(x,y,width,height)
+				touchpad.setBounds(15, 15, 200, 200);
+				
+				//Create a Stage and add TouchPad
+				stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true, batch);
+				stage.addActor(touchpad);			
+				Gdx.input.setInputProcessor(stage);
+				
+				//============================================================================
 	
 	}
 
@@ -69,27 +114,12 @@ public class AnimatedPlayer extends Entity {
 		stateTime += Gdx.graphics.getDeltaTime(); // #15
 		currentFrame = flyAnimation.getKeyFrame(stateTime, true); // #16
 		pos.add(direction);
-
-		int dir = 0;
-
-		if (Gdx.input.isTouched()) {
-			Vector2 touch = camera.unprojectCoordinates(Gdx.input.getX(),
-					Gdx.input.getY());
-			if (touch.x > MainGame.WIDTH / 2)
-				dir = 2;
-
-			else
-				dir = 1;
-		}
-
-		if (Gdx.input.isKeyPressed(Keys.A) || dir == 1)
-			setDirection(-300, 0);
-		else if (Gdx.input.isKeyPressed(Keys.D) || dir == 2)
-			setDirection(300, 0);
-		else
-			setDirection(0, 0);
-
-		// if(Gdx.input.isKeyPressed(Keys.SPACE))
+		
+camera.update();		
+			
+			setDirection(touchpad.getKnobPercentX()*CHARACTER_SPEED, touchpad.getKnobPercentY()*CHARACTER_SPEED);
+		
+		if(Gdx.input.isKeyPressed(Keys.SPACE))
 		{
 			if (System.currentTimeMillis() - lastFire >= 500) {
 
@@ -100,9 +130,17 @@ public class AnimatedPlayer extends Entity {
 		}
 	}
 
+
 	@Override
 	public void render(SpriteBatch sb) {
 		sb.draw(currentFrame, pos.x, pos.y);
+		camera.position.set(pos.x, pos.y, 0);
+		camera.update();
+		touchpad.draw(sb, 0);
+		stage.act(Gdx.graphics.getDeltaTime());        
+        stage.draw();
+		sb.draw(sprite, pos.x, pos.y);
+		sb.draw(texture, pos.x, pos.y);
 		// sb.draw(sprite, pos.x, pos.y);
 		// sb.draw(texture, pos.x, pos.y);
 	}
