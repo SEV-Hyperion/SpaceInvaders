@@ -9,7 +9,8 @@ import com.badlogic.gdx.utils.Disposable;
 
 public class TextureManager implements Disposable, AssetErrorListener {
 
-	public static Texture PLAYER = new Texture(Gdx.files.internal("player.png"));
+//	public static Texture PLAYER = new Texture(Gdx.files.internal("player.png"));
+	public static Texture PLAYER = new Texture(Gdx.files.internal("CharacterSinFondo.png"));
 	public static Texture MISSILE = new Texture(
 			Gdx.files.internal("missile.png"));
 	public static Texture ENEMY0 = new Texture(Gdx.files.internal("enemy0.png"));
@@ -17,6 +18,9 @@ public class TextureManager implements Disposable, AssetErrorListener {
 	public static Texture ENEMY2 = new Texture(Gdx.files.internal("enemy2.png"));
 	public static Texture ENEMY3 = new Texture(Gdx.files.internal("enemy3.png"));
 
+	
+	public static final Texture FIREBALL = null;// new Texture(Gdx.files.internal("fireball.png"));
+	
 	// ==========================================================================
 	// Texture atlas Management
 
@@ -27,6 +31,8 @@ public class TextureManager implements Disposable, AssetErrorListener {
 	// Singleton Class for Texture atlas Management
 	// ==========================================================================
 	public static final TextureManager instance = new TextureManager();
+
+	
 
 	private TextureManager() {
 

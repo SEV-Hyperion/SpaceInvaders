@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.youtube.invaders.TextureManager;
 import com.youtube.invaders.entity.Entity;
 import com.youtube.invaders.entity.EntityManager;
+import com.youtube.invaders.entity.gui.FireBall;
 import com.youtube.invaders.entity.gui.Missile;
 import com.yutube.invaders.camera.OrthoCamera;
 
@@ -45,7 +46,7 @@ public class AnimatedPlayer extends Entity {
 	/**
 	 * Conjunto de frames que forman una secuencia animada del personaje
 	 */
-	Animation playerAnimation;
+	Animation playerUpAnimation;
 	/**
 	 * Conjunto fusionado de texturas que forman el personaje. <br>
 	 * ¿Podría liberarse después de ser usado?
@@ -74,6 +75,8 @@ public class AnimatedPlayer extends Entity {
 	 * Municion actual
 	 */
 	private int currentMagazine = 5;
+	
+	private Animation playerDownAnimation;
 	/**
 	 * Tiempo de recarga, en milisegundos
 	 */
@@ -95,33 +98,93 @@ public class AnimatedPlayer extends Entity {
 	public AnimatedPlayer(Vector2 pos, Vector2 direction,
 			EntityManager entityManager, OrthoCamera camera) {
 		super(TextureManager.PLAYER, pos, direction);
+//		super(null, pos, direction);
 		this.entityManager = entityManager;
 		this.camera = camera;
 		TextureRegion AR = (TextureManager.instance.atlas.findRegion("player"));
 		sprite = new Sprite(AR);
 		// ============================================================================
 		// Animation
-		playerSheet = new Texture(Gdx.files.internal("fly_animation_sheet.png"));
+//		playerSheet = new Texture(Gdx.files.internal("fly_animation_sheet.png"));
+//		playerSheet = new Texture(Gdx.files.internal("CharacterSinFondo.png"));
+//		TextureRegion[][] tmp = TextureRegion.split(playerSheet,
+//				playerSheet.getWidth() / FRAME_COLS, playerSheet.getHeight()
+//						/ FRAME_ROWS);
+//		playerFrames = new TextureRegion[FRAME_COLS * FRAME_ROWS];
+//		TextureRegion[][] tmp = TextureRegion.split(playerSheet,
+//				32, 32);
+//		playerFrames = new TextureRegion[1];
+//		int index = 0;
+//		for (int i = 0; i < FRAME_ROWS; i++) {
+//			for (int j = 0; j < FRAME_COLS; j++) {
+//				playerFrames[index++] = tmp[i][j];
+//			}
+//		}
+		
+		
+		// personaje hacia arriba
+		playerFrames = new TextureRegion[2];
+		//imagen 1
+		playerSheet = new Texture(Gdx.files.internal("playerOneUp_1.png"));
 		TextureRegion[][] tmp = TextureRegion.split(playerSheet,
-				playerSheet.getWidth() / FRAME_COLS, playerSheet.getHeight()
-						/ FRAME_ROWS);
-		playerFrames = new TextureRegion[FRAME_COLS * FRAME_ROWS];
-		int index = 0;
-		for (int i = 0; i < FRAME_ROWS; i++) {
-			for (int j = 0; j < FRAME_COLS; j++) {
+				32, 32);
+		int index = 0;	
+		for (int i = 0; i < 1; i++) {
+			for (int j = 0; j < 1; j++) {
 				playerFrames[index++] = tmp[i][j];
 			}
 		}
-		playerAnimation = new Animation(0.025f, playerFrames);
+		
+		//imagen 2
+		playerSheet = new Texture(Gdx.files.internal("playerOneUp_2.png"));
+		tmp = TextureRegion.split(playerSheet,
+				32, 32);
+		for (int i = 0; i < 1; i++) {
+			for (int j = 0; j < 1; j++) {
+				playerFrames[index++] = tmp[i][j];
+			}
+		}
+		playerUpAnimation = new Animation(0.500f, playerFrames);
+		
+		
+		// personaje hacia abajo
+		playerFrames = new TextureRegion[2];
+		// imagen 1
+		playerSheet = new Texture(Gdx.files.internal("playerOneDown_1.png"));
+		tmp = TextureRegion.split(playerSheet,
+				32, 32);
+		index = 0;
+		for (int i = 0; i < 1; i++) {
+			for (int j = 0; j < 1; j++) {
+				playerFrames[index++] = tmp[i][j];
+			}
+		}
+		playerSheet = new Texture(Gdx.files.internal("playerOneDown_2.png"));
+		tmp = TextureRegion.split(playerSheet,
+				32, 32);
+		for (int i = 0; i < 1; i++) {
+			for (int j = 0; j < 1; j++) {
+				playerFrames[index++] = tmp[i][j];
+			}
+		}
+		playerDownAnimation = new Animation(0.500f, playerFrames);// original 0.025f
+		
+		
+		
 		stateTime = 0f;
-		// ==============================================================================
 
+		currentFrame = playerUpAnimation.getKeyFrame(stateTime, true);
 		generateJoystick(camera);
 
 	}
 
+	/**
+	 * Incluye un joystick que será seguido por la cámara del personaje.
+	 * 
+	 * @param camera
+	 *            Cámara del personaje
+	 */
 	private void generateJoystick(OrthoCamera camera) {
-		// ======================================Jostick=================================
 
 		batch = new SpriteBatch();
 		// Create camera
@@ -162,14 +225,27 @@ public class AnimatedPlayer extends Entity {
 	@Override
 	public void update() {
 
-		stateTime += Gdx.graphics.getDeltaTime(); // #15
-		currentFrame = playerAnimation.getKeyFrame(stateTime, true); // #16
 		pos.add(direction);
 
-		camera.update();
+		// camera.update();
 
 		setDirection(touchpad.getKnobPercentX() * CHARACTER_SPEED,
 				touchpad.getKnobPercentY() * CHARACTER_SPEED);
+
+		stateTime += Gdx.graphics.getDeltaTime(); // #15
+
+//		if (currentFrame == null){
+//			currentFrame = playerUpAnimation.getKeyFrame(stateTime, true); // #16
+//		}
+		if (touchpad.getKnobPercentY() < 0) {
+			//face down
+			currentFrame = playerDownAnimation.getKeyFrame(stateTime, true);
+		}
+		if(touchpad.getKnobPercentY() >0){
+			// face up
+			currentFrame = playerUpAnimation.getKeyFrame(stateTime, true);
+		}
+//		currentFrame = playerAnimation.getKeyFrame(stateTime, true); // #16
 
 		if (Gdx.input.isKeyPressed(Keys.SPACE)) {
 			// lose ammo on fire
@@ -186,7 +262,25 @@ public class AnimatedPlayer extends Entity {
 					currentMagazine = MAGAZINE_SIZE;
 				}
 			}
-		} else if (Gdx.input.isKeyPressed(Keys.R)) {
+		} else if (Gdx.input.isKeyPressed(Keys.A)) {
+			// disparo secundario
+			// lose ammo on fire
+			if (System.currentTimeMillis() - lastFire >= 500
+					&& currentMagazine > 0) {
+				entityManager.addEntity(new FireBall(new Vector2(pos.x
+						+ TextureManager.PLAYER.getWidth() / 4, pos.y)));
+				lastFire = System.currentTimeMillis();
+				currentMagazine--;
+			} else {
+				// auto reload
+				if (System.currentTimeMillis() - lastFire >= RELOAD_TIME
+						&& currentMagazine == 0) {
+					currentMagazine = MAGAZINE_SIZE;
+				}
+			}
+		}
+
+		else if (Gdx.input.isKeyPressed(Keys.R)) {
 			// manual reload
 			int timeToReload = (RELOAD_TIME / MAGAZINE_SIZE) * currentMagazine;
 			long initialTime = System.currentTimeMillis();
@@ -207,8 +301,8 @@ public class AnimatedPlayer extends Entity {
 		touchpad.draw(sb, 0);
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
-		sb.draw(sprite, pos.x, pos.y);
-		sb.draw(texture, pos.x, pos.y);
+//		sb.draw(sprite, pos.x, pos.y);
+//		sb.draw(texture, pos.x, pos.y);
 		// sb.draw(sprite, pos.x, pos.y);
 		// sb.draw(texture, pos.x, pos.y);
 	}

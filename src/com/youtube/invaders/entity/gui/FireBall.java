@@ -7,26 +7,25 @@ import com.youtube.invaders.MainGame;
 import com.youtube.invaders.TextureManager;
 import com.youtube.invaders.entity.Entity;
 
-public class Missile extends Entity {
 
-	public Missile(Vector2 pos) {
-		super(TextureManager.MISSILE, pos, new Vector2(0, 5));
-		TextureRegion AR = (TextureManager.instance.atlas.findRegion("missile"));
+// TODO add texture
+public class FireBall extends Entity {
+
+	public FireBall(Vector2 pos) {
+		super(TextureManager.FIREBALL, pos, new Vector2(0, 5));
+		TextureRegion AR = (TextureManager.instance.atlas.findRegion("fireball"));
 		sprite = new Sprite(AR);
-
 	}
 
 	@Override
 	public void update() {
-
 		pos.add(direction);
 	}
 
 	public boolean checkEnd() {
-		if (pos.y > MainGame.HEIGHT + TextureManager.MISSILE.getHeight())
+		if (pos.y > MainGame.HEIGHT + TextureManager.FIREBALL.getHeight())
 			return true;
 		return false;
 
 	}
-
 }

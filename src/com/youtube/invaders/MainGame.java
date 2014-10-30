@@ -60,8 +60,9 @@ public class MainGame implements ApplicationListener {
 
 	@Override
 	public void render() {
-		Gdx.gl.glClearColor(0, 0, 0, 1);
+		Gdx.gl.glClearColor(0, 1, 0, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		Gdx.gl.
 
 		if (ScreenManager.getCurrentscreen() != null)
 			ScreenManager.getCurrentscreen().update();
