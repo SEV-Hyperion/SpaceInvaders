@@ -25,8 +25,13 @@ import com.youtube.invaders.entity.player.Player;
 import com.youtube.invaders.screen.GameOverScreen;
 import com.youtube.invaders.screen.ScreenManager;
 import com.yutube.invaders.camera.OrthoCamera;
+
 /**
+ * Clase encargada de gestionar las entidades usadas por el programa. Las crea,
+ * actualiza, pinta y destruye. <br>
+ * Almacena el personaje, el contador de vidas y el contador de FPS.<br>
  * ¿Deberia ser Singleton?
+ * 
  * @author Daniel
  *
  */
@@ -96,16 +101,26 @@ public class EntityManager {
 		// fonts = new AssetFonts();
 	}
 
+	/**
+	 * Actualiza todas la entidades gestionadas por ésta. <br>
+	 * Llama a checkCollisions() para manejar las colisiones entre entidades.
+	 */
 	public void update() {
 
 		for (Entity e : entities)
 			e.update();
 		animatedPlayer.update();
 		livesDisplay.update();
-//		textGUI.update();
+		// textGUI.update();
 		checkCollisions();
 	}
 
+	/**
+	 * Dibuja todas las entidades.<br>
+	 * También elimina los misiles si se han salido de la pantalla.
+	 * 
+	 * @param sb
+	 */
 	public void render(SpriteBatch sb) {
 
 		for (Entity e : entities)
@@ -113,15 +128,19 @@ public class EntityManager {
 		for (Missile m : getMissiles())
 			if (m.checkEnd())
 				entities.removeValue(m, false);
-		
+
 		animatedPlayer.render(sb);
 		livesDisplay.render(sb);
 		textGUI.render(sb);
 
-		
-
 	}
 
+	/**
+	 * Comprueba las colisiones entre entidades gestionadas por la
+	 * EntityManager.<br>
+	 * Destruye los misiles al impactar junto con los enemigos. Quita vidas al
+	 * chocar y llama al GameOver si es necesario.
+	 */
 	private void checkCollisions() {
 		for (Enemy e : getEnemies()) {
 			for (Missile m : getMissiles()) {
@@ -134,16 +153,14 @@ public class EntityManager {
 						killed.dispose();
 						// end, Game Won
 						ScreenManager.setScreen(new GameOverScreen(true));
-
 					}
 				}
 			}
 
 			if (e.getBounds().overlaps(animatedPlayer.getBounds())) {
-
 				// Collision with enemy. Decrement Live Counter and erase enemy
 				entities.removeValue(e, false);
-				
+
 				livesDisplay.setLives(livesDisplay.getLives() - 1);
 				hit.play();
 				if (livesDisplay.getLives() == 0) {
@@ -151,40 +168,60 @@ public class EntityManager {
 					ScreenManager.setScreen(new GameOverScreen(false));
 				}
 			}
-
 		}
 	}
 
+	/**
+	 * Devuelve un array con todas la entidades que sean Enemigos.
+	 * 
+	 * @return Array de Enemy
+	 */
 	private Array<Enemy> getEnemies() {
 		Array<Enemy> ret = new Array<Enemy>();
 		for (Entity e : entities) {
 			if (e instanceof Enemy)
 				ret.add((Enemy) e);
-
 		}
-
 		return ret;
 	}
 
+	/**
+	 * Devuelve un array con todos los misiles
+	 * 
+	 * @return Array de Missile
+	 */
 	private Array<Missile> getMissiles() {
 		Array<Missile> ret = new Array<Missile>();
 		for (Entity m : entities) {
 			if (m instanceof Missile)
 				ret.add((Missile) m);
 		}
-
 		return ret;
 	}
 
+	/**
+	 * Comprueba las condiciones de fin de partida.
+	 * 
+	 * @return True si se dan las condiciones de GAMEOVER. FALSE en cualquier
+	 *         otro caso.
+	 */
 	public boolean gameOver() {
 		return ((getEnemies().size <= 0) || (livesDisplay.getLives() == 0));
 	}
 
+	/**
+	 * Añade una entidad al EntityManager
+	 * 
+	 * @param e
+	 *            Entidad que va a ser gestionada por el {@link EntityManager}
+	 */
 	public void addEntity(Entity e) {
 		entities.add(e);
-
 	}
 
+	/**
+	 * Libera los recursos innecesarios
+	 */
 	public void dispose() {
 
 	}
@@ -205,10 +242,13 @@ public class EntityManager {
 	}
 
 	// MY METHODS
-	public AnimatedPlayer getAnimatedPlayer(){
+	/**
+	 * Devuelve el jugador gestionado por el {@link EntityManager}
+	 * 
+	 * @return
+	 */
+	public AnimatedPlayer getAnimatedPlayer() {
 		return animatedPlayer;
 	}
-	
-	
-	
+
 }
