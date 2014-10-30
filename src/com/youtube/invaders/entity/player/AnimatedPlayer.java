@@ -116,6 +116,11 @@ public class AnimatedPlayer extends Entity {
 		stateTime = 0f;
 		// ==============================================================================
 
+		generateJoystick(camera);
+
+	}
+
+	private void generateJoystick(OrthoCamera camera) {
 		// ======================================Jostick=================================
 
 		batch = new SpriteBatch();
@@ -152,7 +157,6 @@ public class AnimatedPlayer extends Entity {
 		Gdx.input.setInputProcessor(stage);
 
 		// ============================================================================
-
 	}
 
 	@Override
