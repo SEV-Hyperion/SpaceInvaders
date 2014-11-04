@@ -2,22 +2,27 @@ package com.youtube.invaders.entity.gui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.youtube.invaders.MainGame;
-import com.youtube.invaders.TextureManager;
 import com.youtube.invaders.entity.Entity;
 
 public class TextGUI extends Entity {
 	public AssetFonts fonts;
+	private Animation textGUIAnimation;
+	private static String path = "playerOneUp_1.png";
+	private static int width = 12;
+	private static int height = 25;
+	private static int frameDuration = 1;
 
 	public TextGUI(Vector2 pos, Vector2 direction) {
-		super(TextureManager.PLAYER, pos, direction);
-		TextureRegion AR = (TextureManager.instance.atlas.findRegion("player"));
-		sprite = new Sprite(AR);
+		super(pos, direction);
+
+		textGUIAnimation = loadAnimation(path, width, height, frameDuration);
+		currentFrame = textGUIAnimation.getKeyFrame(0, true);
+
 		fonts = new AssetFonts();
 	}
 

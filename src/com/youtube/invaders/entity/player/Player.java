@@ -13,6 +13,11 @@ import com.youtube.invaders.entity.EntityManager;
 import com.youtube.invaders.entity.gui.Missile;
 import com.yutube.invaders.camera.OrthoCamera;
 
+/**
+ * Left in memoriam
+ * @author Daniel
+ *
+ */
 public class Player extends Entity {
 
 	private EntityManager entityManager;
@@ -21,11 +26,11 @@ public class Player extends Entity {
 
 	public Player(Vector2 pos, Vector2 direction, EntityManager entityManager,
 			OrthoCamera camera) {
-		super(TextureManager.PLAYER, pos, direction);
+		super(pos, direction);
 		this.entityManager = entityManager;
 		this.camera = camera;
 		TextureRegion AR = (TextureManager.instance.atlas.findRegion("player"));
-		sprite = new Sprite(AR);
+		// sprite = new Sprite(AR);
 	}
 
 	@Override

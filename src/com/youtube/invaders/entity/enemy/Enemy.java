@@ -1,8 +1,6 @@
 package com.youtube.invaders.entity.enemy;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.youtube.invaders.MainGame;
@@ -20,19 +18,17 @@ public abstract class Enemy extends Entity {
 	// ==============================================================
 	// Texture Atlas Management
 	// =============================================================
-	// public static Texture texture;
 
 	/**
 	 * Velocidad de movimiento del enemigo. Por defecto: 1.
 	 */
 	protected float speed = 1;
-	/**
-	 * Frame actual del enemigo.<br>
-	 * ¿Qué significa AR?<br>
-	 * Se puede generalizar a Entity ya que AnimatedPlayer tambien lo usa (con
-	 * otro nombre [currentFrame], eso sí)
-	 */
-	protected TextureRegion AR;
+
+	private String path = "enemy0.png";
+	private static int width = 43;
+	private static int height = 29;
+	private static int frameDuration = 1;
+	private Animation enemyAnimation = null;
 
 	/**
 	 * Constructor de enemigos.
@@ -41,15 +37,21 @@ public abstract class Enemy extends Entity {
 	 *            Posicion inicial del enemigo
 	 * @param direction
 	 *            Direccion en que se mueve el enemigo
-	 * @param type
-	 *            Tipo de entidad {@link Entity.type}
 	 */
-	public Enemy(Vector2 pos, Vector2 direction, int type) {
+	public Enemy(Vector2 pos, Vector2 direction) {
 
-		super(TextureManager.ENEMY0, pos, direction, type);
-		AR = (TextureManager.instance.atlas.findRegion("enemy"));
-		sprite = new Sprite(AR);
+		super(pos, direction);
 
+		enemyAnimation = loadAnimation(path, width, height, frameDuration);
+		currentFrame = enemyAnimation.getKeyFrame(0, true);
+
+	}
+
+	public Enemy(Vector2 pos, Vector2 direction, String path) {
+		super(pos, direction);
+		this.path = path;
+		enemyAnimation = loadAnimation(path, width, height, frameDuration);
+		currentFrame = enemyAnimation.getKeyFrame(0, true);
 	}
 
 	@Override
@@ -88,52 +90,4 @@ public abstract class Enemy extends Entity {
 		return newDirection;
 	}
 
-	/**
-	 * Devuelve la textura del TextureManager que le corresponde al tipo de
-	 * Enemy que hemos creado. <br>
-	 * Default: ENEMY0
-	 * 
-	 * @return Textura correspondiente a nuestro enemigo.
-	 */
-	private Texture getTextureEnemy() {
-		sprite = new Sprite(AR);
-		// return s.getTexture();
-
-		switch (type) {
-		case 0:
-			return TextureManager.ENEMY0;
-		case 1:
-			return TextureManager.ENEMY1;
-		case 2:
-			return TextureManager.ENEMY2;
-		case 3:
-			return TextureManager.ENEMY3;
-		default:
-			return TextureManager.ENEMY0;
-		}
-
-		/*
-		 * TextureRegion AR =
-		 * (TextureManager.instance.atlas.findRegion("missile")); Sprite s = new
-		 * Sprite(AR); return s.getTexture();
-		 */
-
-		/*
-		 * System.out.println("======================");
-		 * System.out.println(AR.getRegionWidth());
-		 * System.out.println(AR.getRegionHeight());
-		 * 
-		 * 
-		 * System.out.println(AR.getTexture().getWidth());
-		 * System.out.println(AR.getTexture().getHeight());
-		 * 
-		 * System.out.println(s.getTexture().getWidth());
-		 * System.out.println(s.getTexture().getHeight());
-		 * 
-		 * return s.getTexture();
-		 * 
-		 * //return AR.getTexture();
-		 */
-
-	}
 }

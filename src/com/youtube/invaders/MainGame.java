@@ -4,12 +4,7 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Texture.TextureFilter;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.youtube.invaders.screen.GameScreen;
 import com.youtube.invaders.screen.ScreenManager;
 
@@ -34,6 +29,8 @@ public class MainGame implements ApplicationListener {
 	// =========================================================================
 	// Lives Management
 	public static final int LIVES_START = 5;
+	// Enemies management
+	public static final int NUMBER_OF_ENEMIES = 10;
 	public int lives =0;
 	// =========================================================================
 

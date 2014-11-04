@@ -1,23 +1,15 @@
 package com.youtube.invaders.entity.enemy;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
-import com.youtube.invaders.TextureManager;
 
 public class Enemy1 extends Enemy {
-	// ==============================================================
-	// Texture Atlas Management
-	// =============================================================
-	// public static Texture texture;
+	private static String path = "enemy1.png";
 
-	
-	public Enemy1(Vector2 pos, Vector2 direction, int type) {
+	public Enemy1(Vector2 pos, Vector2 direction) {
 
-		super( pos, direction, type);
-		AR = (TextureManager.instance.atlas.findRegion("enemy1"));
-		sprite = new Sprite(AR);
-		speed=5;
+		super(pos, direction, path);
+		speed = 5;
 
 	}
-	
+
 }

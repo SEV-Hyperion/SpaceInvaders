@@ -1,32 +1,25 @@
 package com.youtube.invaders.screen;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.youtube.invaders.MainGame;
-import com.youtube.invaders.TextureManager;
+import com.youtube.invaders.entity.EntityManager;
 import com.yutube.invaders.camera.OrthoCamera;
 
 public class GameOverScreen extends Screen {
 	private OrthoCamera camera;
-	private Texture texture;
-	protected Sprite sprite;
+	// private Texture texture;
+	private TextureRegion texture;
 
 	public GameOverScreen(boolean won) {
 
 		if (won) {
-			texture = TextureManager.PLAYER;
-			TextureRegion AR = (TextureManager.instance.atlas
-					.findRegion("player"));
-			sprite = new Sprite(AR);
+			texture = EntityManager.getAnimatedPlayer().getCurrentFrame();
 		} else {
 
-			texture = TextureManager.ENEMY0;
-			TextureRegion AR = (TextureManager.instance.atlas.findRegion("enemy3"));
-			 sprite = new Sprite(AR);
+			texture = EntityManager.getEnemies().get(0).getCurrentFrame();
 		}
-		MainGame.score=0;
+		MainGame.score = 0;
 	}
 
 	@Override
@@ -47,9 +40,7 @@ public class GameOverScreen extends Screen {
 
 		sb.setProjectionMatrix(camera.combined);
 		sb.begin();
-		// entityManager.render(sb);
-		//sb.draw(texture, MainGame.WIDTH / 2, MainGame.HEIGHT / 2);
-		sb.draw(sprite, MainGame.WIDTH / 2, MainGame.HEIGHT / 2);
+		sb.draw(texture, MainGame.WIDTH / 2, MainGame.HEIGHT / 2);
 		sb.end();
 	}
 

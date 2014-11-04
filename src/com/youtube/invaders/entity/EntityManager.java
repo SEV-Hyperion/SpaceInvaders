@@ -5,9 +5,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.youtube.invaders.MainGame;
@@ -39,14 +37,14 @@ import com.yutube.invaders.camera.OrthoCamera;
 public class EntityManager {
 
 	Player player;
-	AnimatedPlayer animatedPlayer;
+	static Entity animatedPlayer;
 	LivesDisplay livesDisplay;
 	TextGUI textGUI;
 
 	public Sound killed, hit;
 	// public AssetFonts fonts;
 
-	private final Array<Entity> entities = new Array<Entity>();
+	private final static Array<Entity> entities = new Array<Entity>();
 
 	public EntityManager(int amount, OrthoCamera camera) {
 
@@ -55,11 +53,15 @@ public class EntityManager {
 
 		livesDisplay = new LivesDisplay(new Vector2(MainGame.WIDTH / 2,
 				MainGame.HEIGHT
-						- ((int) (1.5 * animatedPlayer.sprite.getHeight()))),
-				new Vector2(0, 0), this, camera);
+						- ((int) (1.5 * animatedPlayer.currentFrame
+								.getRegionHeight()))), new Vector2(0, 0), this,
+				camera);
 
-		textGUI = new TextGUI(new Vector2(MainGame.WIDTH / 2, MainGame.HEIGHT
-				- ((int) (1.5 * animatedPlayer.sprite.getHeight()))),
+		textGUI = new TextGUI(
+				new Vector2(MainGame.WIDTH / 2,
+						MainGame.HEIGHT
+								- ((int) (1.5 * animatedPlayer.currentFrame
+										.getRegionHeight()))),
 				new Vector2(0, 0));
 
 		killed = Gdx.audio.newSound(Gdx.files.internal("sounds/killed.mp3"));
@@ -76,23 +78,23 @@ public class EntityManager {
 			switch (type) {
 			case 0:
 				enemy = (Enemy) (new Enemy0(new Vector2(x, y), new Vector2(0,
-						-speed), type));
+						-speed)));
 				break;
 			case 1:
 				enemy = (Enemy) (new Enemy1(new Vector2(x, y), new Vector2(0,
-						-speed), type));
+						-speed)));
 				break;
 			case 2:
 				enemy = (Enemy) (new Enemy2(new Vector2(x, y), new Vector2(0,
-						-speed), type));
+						-speed)));
 				break;
 			case 3:
 				enemy = (Enemy) (new Enemy3(new Vector2(x, y), new Vector2(0,
-						-speed), type));
+						-speed)));
 				break;
 			default:
 				enemy = (Enemy) (new Enemy3(new Vector2(x, y), new Vector2(0,
-						-speed), type));
+						-speed)));
 
 			}
 			entities.add(enemy);
@@ -176,7 +178,7 @@ public class EntityManager {
 	 * 
 	 * @return Array de Enemy
 	 */
-	private Array<Enemy> getEnemies() {
+	public static Array<Enemy> getEnemies() {
 		Array<Enemy> ret = new Array<Enemy>();
 		for (Entity e : entities) {
 			if (e instanceof Enemy)
@@ -247,7 +249,7 @@ public class EntityManager {
 	 * 
 	 * @return
 	 */
-	public AnimatedPlayer getAnimatedPlayer() {
+	public static Entity getAnimatedPlayer() {
 		return animatedPlayer;
 	}
 

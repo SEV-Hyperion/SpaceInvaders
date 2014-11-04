@@ -1,5 +1,6 @@
 package com.youtube.invaders.entity.gui;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -16,14 +17,21 @@ public class LivesDisplay extends Entity {
 
 	private int lives;
 	private OrthoCamera camera;
+	private Animation livesAnimation;
+	private static String path = "playerOneUp_1.png";
+	private static int width = 12;
+	private static int height = 25;
+	private static int frameDuration = 1;
 
 	public LivesDisplay(Vector2 pos, Vector2 direction,
 			EntityManager entityManager, OrthoCamera camera) {
-		super(TextureManager.PLAYER, pos, direction);
+		super(pos, direction);
 		this.entityManager = entityManager;
 		this.camera = camera;
-		TextureRegion AR = (TextureManager.instance.atlas.findRegion("player"));
-		sprite = new Sprite(AR);
+
+		livesAnimation = loadAnimation(path, width, height, frameDuration);
+
+		currentFrame = livesAnimation.getKeyFrame(0, true);
 		lives = MainGame.LIVES_START;
 	}
 
@@ -43,9 +51,11 @@ public class LivesDisplay extends Entity {
 	@Override
 	public void render(SpriteBatch sb) {
 		for (int i = 0; i < MainGame.LIVES_START; i++) {
-			if (this.lives-2 < i)
-				sb.setColor(0.5f+ (0.15f*(MainGame.LIVES_START-(this.lives-1))), 0.0f, 0.0f, 0.5f);
-			sb.draw(sprite, MainGame.WIDTH - (50 * (i + 1)), pos.y);
+			if (this.lives - 2 < i)
+				sb.setColor(
+						0.5f + (0.15f * (MainGame.LIVES_START - (this.lives - 1))),
+						0.0f, 0.0f, 0.5f);
+			sb.draw(currentFrame, MainGame.WIDTH - (50 * (i + 1)), pos.y);
 			sb.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		}
 

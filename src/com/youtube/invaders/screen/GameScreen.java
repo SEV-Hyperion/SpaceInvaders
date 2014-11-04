@@ -25,9 +25,11 @@ public class GameScreen extends Screen {
 	public void create() {
 		// System.out.println("Created");
 		camera = new OrthoCamera();
-		entityManager = new EntityManager(100, camera);
+		entityManager = new EntityManager(MainGame.NUMBER_OF_ENEMIES, camera);
 		gameLoopSound = Gdx.audio.newSound(Gdx.files
-				.internal("sounds/gameloopsound.mp3"));
+		// .internal("sounds/gameloopsound.mp3"));
+				.internal("sounds/l2outro.ogg"));// changed to suit my taste
+													// while coding. ~Dani
 		gameLoopSound.loop();
 
 		cameraGUI = new OrthographicCamera(MainGame.VIEWPORT_GUI_WIDTH,
@@ -89,10 +91,10 @@ public class GameScreen extends Screen {
 		System.out.println("Resumed");
 		gameLoopSound.loop();
 	}
-	
+
 	//
-	
-	public static EntityManager getEntityManager(){
+
+	public static EntityManager getEntityManager() {
 		return entityManager;
 	}
 
