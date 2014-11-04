@@ -16,7 +16,6 @@ public class GameOverScreen extends Screen {
 		if (won) {
 			texture = EntityManager.getAnimatedPlayer().getCurrentFrame();
 		} else {
-
 			texture = EntityManager.getEnemies().get(0).getCurrentFrame();
 		}
 		MainGame.score = 0;

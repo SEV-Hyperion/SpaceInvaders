@@ -10,7 +10,7 @@ import com.youtube.invaders.MainGame;
 import com.youtube.invaders.TextureManager;
 import com.youtube.invaders.entity.Entity;
 import com.youtube.invaders.entity.EntityManager;
-import com.youtube.invaders.entity.gui.Missile;
+import com.youtube.invaders.entity.gui.projectiles.Missile;
 import com.yutube.invaders.camera.OrthoCamera;
 
 /**

@@ -57,6 +57,7 @@ public class LivesDisplay extends Entity {
 						0.0f, 0.0f, 0.5f);
 			sb.draw(currentFrame, MainGame.WIDTH - (50 * (i + 1)), pos.y);
 			sb.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+			camera.update();
 		}
 
 	}

@@ -2,15 +2,12 @@ package com.youtube.invaders.entity.gui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.yutube.invaders.camera.OrthoCamera;
 
 public class CustomTouchpad extends Touchpad {
-
 
 	private static TouchpadStyle touchpadStyle = new TouchpadStyle();
 	private Skin touchpadSkin = new Skin();
@@ -20,7 +17,7 @@ public class CustomTouchpad extends Touchpad {
 	public CustomTouchpad(OrthoCamera camera) {
 		// TODO Auto-generated constructor stub
 		super(10, touchpadStyle);
-		
+
 		// Create camera
 		float aspectRatio = (float) Gdx.graphics.getWidth()
 				/ (float) Gdx.graphics.getHeight();
@@ -43,12 +40,12 @@ public class CustomTouchpad extends Touchpad {
 		touchpadStyle.background = touchBackground;
 		touchpadStyle.knob = touchKnob;
 		// Create new TouchPad with the created style
-//		super(10, touchpadStyle);
+		// super(10, touchpadStyle);
 		this.setStyle(touchpadStyle);
 		// setBounds(x,y,width,height)
 		this.setBounds(15, 15, 200, 200);
 
 		// Create a Stage and add TouchPad
-		
+
 	}
 }

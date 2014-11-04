@@ -11,8 +11,7 @@ import com.youtube.invaders.TextureManager;
 import com.youtube.invaders.entity.Entity;
 import com.youtube.invaders.entity.EntityManager;
 import com.youtube.invaders.entity.gui.CustomTouchpad;
-import com.youtube.invaders.entity.gui.FireBall;
-import com.youtube.invaders.entity.gui.Missile;
+import com.youtube.invaders.entity.gui.projectiles.*;
 import com.yutube.invaders.camera.OrthoCamera;
 
 public class AnimatedPlayer extends Entity {
@@ -150,8 +149,8 @@ public class AnimatedPlayer extends Entity {
 			// lose ammo on fire
 			if (System.currentTimeMillis() - lastFire >= 500
 					&& currentMagazine > 0) {
-				entityManager.addEntity(new FireBall(new Vector2(pos.x
-						+ TextureManager.PLAYER.getWidth() / 4, pos.y)));
+				entityManager.addEntity(new FireBall(new Vector2(pos.x + width
+						/ 4, pos.y)));
 				lastFire = System.currentTimeMillis();
 				currentMagazine--;
 			} else {
@@ -184,10 +183,6 @@ public class AnimatedPlayer extends Entity {
 		touchpad.draw(sb, 0);
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
-		// sb.draw(sprite, pos.x, pos.y);
-		// sb.draw(texture, pos.x, pos.y);
-		// sb.draw(sprite, pos.x, pos.y);
-		// sb.draw(texture, pos.x, pos.y);
 	}
 
 }

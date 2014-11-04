@@ -102,6 +102,11 @@ public abstract class Entity {
 				currentFrame.getRegionHeight());
 	}
 
+	/**
+	 * Devuelve el frame actual
+	 * 
+	 * @return El frame actual
+	 */
 	public TextureRegion getCurrentFrame() {
 		return currentFrame;
 	}
@@ -135,6 +140,20 @@ public abstract class Entity {
 		return new Animation(frameDuration, frames);
 	}
 
+	/**
+	 * Devuelve una animacion compuesta por varios png.
+	 * 
+	 * @param paths
+	 *            Array con los nombres de los archivos que se usaran como
+	 *            animacion
+	 * @param width
+	 *            Ancho de la animacion
+	 * @param height
+	 *            Alto de la anumacion
+	 * @param frameDuration
+	 *            Duracion de cada frame de la animacion
+	 * @return Una Animacion cargada segun los parametros de entrada.
+	 */
 	public Animation loadComplexAnimation(String[] paths, int width,
 			int height, float frameDuration) {
 		TextureRegion[] frames = new TextureRegion[paths.length];

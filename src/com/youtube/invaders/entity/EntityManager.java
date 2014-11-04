@@ -16,8 +16,8 @@ import com.youtube.invaders.entity.enemy.Enemy1;
 import com.youtube.invaders.entity.enemy.Enemy2;
 import com.youtube.invaders.entity.enemy.Enemy3;
 import com.youtube.invaders.entity.gui.LivesDisplay;
-import com.youtube.invaders.entity.gui.Missile;
 import com.youtube.invaders.entity.gui.TextGUI;
+import com.youtube.invaders.entity.gui.projectiles.*;
 import com.youtube.invaders.entity.player.AnimatedPlayer;
 import com.youtube.invaders.entity.player.Player;
 import com.youtube.invaders.screen.GameOverScreen;
@@ -113,7 +113,7 @@ public class EntityManager {
 			e.update();
 		animatedPlayer.update();
 		livesDisplay.update();
-		// textGUI.update();
+		textGUI.update();
 		checkCollisions();
 	}
 
@@ -127,9 +127,9 @@ public class EntityManager {
 
 		for (Entity e : entities)
 			e.render(sb);
-		for (Missile m : getMissiles())
-			if (m.checkEnd())
-				entities.removeValue(m, false);
+		for (Projectile p : getProjectiles())
+			if (p.checkEnd())
+				entities.removeValue(p, false);
 
 		animatedPlayer.render(sb);
 		livesDisplay.render(sb);
@@ -145,7 +145,7 @@ public class EntityManager {
 	 */
 	private void checkCollisions() {
 		for (Enemy e : getEnemies()) {
-			for (Missile m : getMissiles()) {
+			for (Projectile m : getProjectiles()) {
 				if (e.getBounds().overlaps(m.getBounds())) {
 					entities.removeValue(e, false);
 					entities.removeValue(m, false); // destroy missile on hit
@@ -188,15 +188,15 @@ public class EntityManager {
 	}
 
 	/**
-	 * Devuelve un array con todos los misiles
+	 * Devuelve un array con todos los proyectiles
 	 * 
-	 * @return Array de Missile
+	 * @return Array de Projectile
 	 */
-	private Array<Missile> getMissiles() {
-		Array<Missile> ret = new Array<Missile>();
+	private Array<Projectile> getProjectiles() {
+		Array<Projectile> ret = new Array<Projectile>();
 		for (Entity m : entities) {
-			if (m instanceof Missile)
-				ret.add((Missile) m);
+			if (m instanceof Projectile)
+				ret.add((Projectile) m);
 		}
 		return ret;
 	}
