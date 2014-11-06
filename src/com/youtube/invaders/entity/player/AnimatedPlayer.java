@@ -123,59 +123,29 @@ public class AnimatedPlayer extends Entity {
 		if (currentFrame == null) {
 			currentFrame = playerUpAnimation.getKeyFrame(stateTime, true); // #16
 		}
+		
 		if (touchpad.getKnobPercentY() < 0) {
 			// face down
 			currentFrame = playerDownAnimation.getKeyFrame(stateTime, true);
 		}
+		
 		if (touchpad.getKnobPercentY() > 0) {
 			// face up
 			currentFrame = playerUpAnimation.getKeyFrame(stateTime, true);
 		}
 		// currentFrame = playerAnimation.getKeyFrame(stateTime, true); // #16
 
+		setProyectileDireccion();
+		
 		if (Gdx.input.isKeyPressed(Keys.SPACE)) {
-			// lose ammo on fire
-			if (System.currentTimeMillis() - lastFire >= 500
-					&& currentMagazine > 0) {
-				entityManager.addEntity(new Missile(new Vector2(pos.x
-						+ TextureManager.PLAYER.getWidth() / 4, pos.y)));
-				lastFire = System.currentTimeMillis();
-				currentMagazine--;
-			} else {
-				// auto reload
-				if (System.currentTimeMillis() - lastFire >= RELOAD_TIME
-						&& currentMagazine == 0) {
-					currentMagazine = MAGAZINE_SIZE;
-				}
-			}
+			//disparo principal.
+			// lose ammo on fire.
+			disparoPrincipal();
+			
 		} else if (Gdx.input.isKeyPressed(Keys.A)) {
-			// disparo secundario
-			// lose ammo on fire
-			if (System.currentTimeMillis() - lastFire >= 500
-					&& currentMagazine > 0) {
-
-				
-				if (touchpad.getKnobPercentY() < 0)
-				{
-					direccionProyectil = DIRECCION_IZQUIERDA;
-				}
-				
-				if (touchpad.getKnobPercentY() > 0)
-				{
-					direccionProyectil=DIRECCION_DERECHA;
-				}
-				
-				entityManager.addEntity(new FireBall(new Vector2(pos.x + width
-						/ 4, pos.y), direccionProyectil));
-				lastFire = System.currentTimeMillis();
-				currentMagazine--;
-			} else {
-				// auto reload
-				if (System.currentTimeMillis() - lastFire >= RELOAD_TIME
-						&& currentMagazine == 0) {
-					currentMagazine = MAGAZINE_SIZE;
-				}
-			}
+			// disparo secundario.
+			// lose ammo on fire.
+			disparoSecundario();
 		}
 
 		else if (Gdx.input.isKeyPressed(Keys.R)) {
@@ -188,6 +158,51 @@ public class AnimatedPlayer extends Entity {
 				// thread for its duration
 			}
 			currentMagazine = MAGAZINE_SIZE;
+		}
+	}
+
+	private void disparoPrincipal() {
+		if (System.currentTimeMillis() - lastFire >= 500
+				&& currentMagazine > 0) {
+			entityManager.addEntity(new Missile(new Vector2(pos.x
+					+ TextureManager.PLAYER.getWidth() / 4, pos.y), direccionProyectil));
+			lastFire = System.currentTimeMillis();
+			currentMagazine--;
+		} else {
+			// auto reload
+			if (System.currentTimeMillis() - lastFire >= RELOAD_TIME
+					&& currentMagazine == 0) {
+				currentMagazine = MAGAZINE_SIZE;
+			}
+		}
+	}
+
+	private void disparoSecundario() {
+		if (System.currentTimeMillis() - lastFire >= 500
+				&& currentMagazine > 0) {
+			
+			entityManager.addEntity(new FireBall(new Vector2(pos.x + width
+					/ 4, pos.y), direccionProyectil));
+			lastFire = System.currentTimeMillis();
+			currentMagazine--;
+		} else {
+			// auto reload
+			if (System.currentTimeMillis() - lastFire >= RELOAD_TIME
+					&& currentMagazine == 0) {
+				currentMagazine = MAGAZINE_SIZE;
+			}
+		}
+	}
+
+	private void setProyectileDireccion() {
+		if (touchpad.getKnobPercentY() < 0)
+		{
+			direccionProyectil = DIRECCION_IZQUIERDA;
+		}
+		
+		if (touchpad.getKnobPercentY() > 0)
+		{
+			direccionProyectil=DIRECCION_DERECHA;
 		}
 	}
 
