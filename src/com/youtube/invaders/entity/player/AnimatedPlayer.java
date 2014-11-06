@@ -21,7 +21,11 @@ public class AnimatedPlayer extends Entity {
 	private final int CHARACTER_SPEED = 250;
 	private EntityManager entityManager;
 	private long lastFire;
-
+	private static final Vector2 DIRECCION_DERECHA = new Vector2(0,5);
+	private static final Vector2 DIRECCION_IZQUIERDA = new Vector2(0,-5);
+	private Vector2 direccionProyectil = DIRECCION_DERECHA;
+	
+	
 	private OrthoCamera camera;
 
 	/**
@@ -149,8 +153,20 @@ public class AnimatedPlayer extends Entity {
 			// lose ammo on fire
 			if (System.currentTimeMillis() - lastFire >= 500
 					&& currentMagazine > 0) {
+
+				
+				if (touchpad.getKnobPercentY() < 0)
+				{
+					direccionProyectil = DIRECCION_IZQUIERDA;
+				}
+				
+				if (touchpad.getKnobPercentY() > 0)
+				{
+					direccionProyectil=DIRECCION_DERECHA;
+				}
+				
 				entityManager.addEntity(new FireBall(new Vector2(pos.x + width
-						/ 4, pos.y)));
+						/ 4, pos.y), direccionProyectil));
 				lastFire = System.currentTimeMillis();
 				currentMagazine--;
 			} else {
