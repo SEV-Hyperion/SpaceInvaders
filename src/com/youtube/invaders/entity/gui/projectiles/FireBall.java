@@ -8,8 +8,12 @@ public class FireBall extends Projectile {
 	private static int height = 14;
 	private static int frameDuration = 1;
 
-	public FireBall(Vector2 pos) {
-		super(pos, new Vector2(0, 5));
+	/**
+	 * 
+	 * @param pos la direccion de movimiento del proyectil
+	 */
+	public FireBall(Vector2 pos, Vector2 direccion) {
+		super(pos, direccion);
 		animation = loadAnimation(path, width, height, frameDuration);
 		currentFrame = animation.getKeyFrame(0, true);
 	}

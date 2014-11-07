@@ -8,11 +8,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import com.youtube.invaders.TextureManager;
-import com.youtube.invaders.camera.OrthoCamera;
 import com.youtube.invaders.entity.Entity;
 import com.youtube.invaders.entity.EntityManager;
 import com.youtube.invaders.entity.gui.CustomTouchpad;
 import com.youtube.invaders.entity.gui.projectiles.*;
+import com.yutube.invaders.camera.OrthoCamera;
 
 public class AnimatedPlayer extends Entity {
 	// =======================================================================
@@ -80,7 +80,6 @@ public class AnimatedPlayer extends Entity {
 			EntityManager entityManager, OrthoCamera camera) {
 		super(pos, direction);
 		this.entityManager = entityManager;
-		this.entityManager.animatedPlayer = this;
 		this.camera = camera;
 
 		playerUpAnimation = loadComplexAnimation(pathsUpAnimation, 32, 32,
@@ -109,11 +108,6 @@ public class AnimatedPlayer extends Entity {
 		Gdx.input.setInputProcessor(stage);
 	}
 
-
-	// reload support
-	boolean reloading = false;
-	int timeToReload = 0;
-	long initialTime = 0;
 	@Override
 	public void update() {
 
@@ -129,71 +123,41 @@ public class AnimatedPlayer extends Entity {
 		if (currentFrame == null) {
 			currentFrame = playerUpAnimation.getKeyFrame(stateTime, true); // #16
 		}
+		
 		if (touchpad.getKnobPercentY() < 0) {
 			// face down
 			currentFrame = playerDownAnimation.getKeyFrame(stateTime, true);
 		}
+		
 		if (touchpad.getKnobPercentY() > 0) {
 			// face up
 			currentFrame = playerUpAnimation.getKeyFrame(stateTime, true);
 		}
 		// currentFrame = playerAnimation.getKeyFrame(stateTime, true); // #16
 
-		if (reloading){
-			if(System.currentTimeMillis() < (initialTime + timeToReload)){
-				return;
-			}else{
-				reloading =false;
-				currentMagazine = MAGAZINE_SIZE;
-				return;
-			}
-			
-		}
+		setProyectileDireccion();
 		
 		if (Gdx.input.isKeyPressed(Keys.SPACE)) {
-			// lose ammo on fire
-			if (System.currentTimeMillis() - lastFire >= 500
-					&& currentMagazine > 0) {
-				entityManager.addEntity(new Missile(new Vector2(pos.x + width
-						/ 4, pos.y)));
-				lastFire = System.currentTimeMillis();
-				currentMagazine--;
-			} else {
-				// auto reload
-				if (System.currentTimeMillis() - lastFire >= RELOAD_TIME
-						&& currentMagazine == 0) {
-					currentMagazine = MAGAZINE_SIZE;
-				}
-			}
+			//disparo principal.
+			// lose ammo on fire.
+			disparoPrincipal();
+			
 		} else if (Gdx.input.isKeyPressed(Keys.A)) {
-			// disparo secundario
-			// lose ammo on fire
-			if (System.currentTimeMillis() - lastFire >= 500
-					&& currentMagazine > 0) {
-				entityManager.addEntity(new FireBall(new Vector2(pos.x + width
-						/ 4, pos.y)));
-				lastFire = System.currentTimeMillis();
-				currentMagazine--;
-			} else {
-				// auto reload
-				if (System.currentTimeMillis() - lastFire >= RELOAD_TIME
-						&& currentMagazine == 0) {
-					currentMagazine = MAGAZINE_SIZE;
-				}
-			}
+			// disparo secundario.
+			// lose ammo on fire.
+			disparoSecundario();
 		}
 
 		else if (Gdx.input.isKeyPressed(Keys.R)) {
 			// manual reload
-			timeToReload = (RELOAD_TIME / MAGAZINE_SIZE) * currentMagazine;
-			initialTime = System.currentTimeMillis();
-//			while (System.currentTimeMillis() < (initialTime + timeToReload)) {
-//				// do nothing
-//				// TODO it does <i>literally nothing</i>, so it stops the main
-//				// thread for its duration
-//			}
-//			currentMagazine = MAGAZINE_SIZE;
-			reloading=true;
+			int timeToReload = (RELOAD_TIME / MAGAZINE_SIZE) * currentMagazine;
+			long initialTime = System.currentTimeMillis();
+			while (System.currentTimeMillis() < (initialTime + timeToReload)) {
+				// do nothing
+				// TODO it does <i>literally nothing</i>, so it stops the main
+				// thread for its duration
+			}
+			currentMagazine = MAGAZINE_SIZE;
 		}
 	}
 
