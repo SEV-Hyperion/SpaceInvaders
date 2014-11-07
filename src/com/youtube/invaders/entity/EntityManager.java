@@ -20,7 +20,6 @@ import com.youtube.invaders.entity.gui.LivesDisplay;
 import com.youtube.invaders.entity.gui.TextGUI;
 import com.youtube.invaders.entity.gui.projectiles.Projectile;
 import com.youtube.invaders.entity.player.AnimatedPlayer;
-import com.youtube.invaders.entity.player.Player;
 import com.youtube.invaders.screen.GameOverScreen;
 import com.youtube.invaders.screen.ScreenManager;
 
@@ -187,7 +186,16 @@ public class EntityManager {
 						System.out.println("Enemies remaining: "
 								+ getEnemies().size);
 						// end, Game Won
-						ScreenManager.setScreen(new GameOverScreen(true)); // TODO if won, show winning screen and send to NEXT_LEVEL
+						ScreenManager.setScreen(new GameOverScreen(true)); // TODO
+																			// if
+																			// won,
+																			// show
+																			// winning
+																			// screen
+																			// and
+																			// send
+																			// to
+																			// NEXT_LEVEL
 						return;
 					}
 				}
@@ -209,7 +217,12 @@ public class EntityManager {
 					System.out.println("Enemies remaining: "
 							+ getEnemies().size);
 					// If we ran out of lives, game is over, lost
-					ScreenManager.setScreen(new GameOverScreen(false));// TODO ok this is correct behaviour
+					ScreenManager.setScreen(new GameOverScreen(false));// TODO
+																		// ok
+																		// this
+																		// is
+																		// correct
+																		// behaviour
 					return;
 				}
 			}
@@ -269,9 +282,9 @@ public class EntityManager {
 	 */
 	public void dispose() {
 		this.entities.clear();
-		this.entities=null;
-		this.animatedPlayer=null;
-		this.livesDisplay=null;
+		this.entities = null;
+		this.animatedPlayer = null;
+		this.livesDisplay = null;
 	}
 
 	// GUI Management

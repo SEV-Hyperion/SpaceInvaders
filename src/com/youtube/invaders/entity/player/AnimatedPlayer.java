@@ -8,11 +8,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import com.youtube.invaders.TextureManager;
+import com.youtube.invaders.camera.OrthoCamera;
 import com.youtube.invaders.entity.Entity;
 import com.youtube.invaders.entity.EntityManager;
 import com.youtube.invaders.entity.gui.CustomTouchpad;
-import com.youtube.invaders.entity.gui.projectiles.*;
-import com.yutube.invaders.camera.OrthoCamera;
+import com.youtube.invaders.entity.gui.projectiles.FireBall;
+import com.youtube.invaders.entity.gui.projectiles.Missile;
 
 public class AnimatedPlayer extends Entity {
 	// =======================================================================
@@ -21,11 +22,10 @@ public class AnimatedPlayer extends Entity {
 	private final int CHARACTER_SPEED = 250;
 	private EntityManager entityManager;
 	private long lastFire;
-	private static final Vector2 DIRECCION_DERECHA = new Vector2(0,5);
-	private static final Vector2 DIRECCION_IZQUIERDA = new Vector2(0,-5);
+	private static final Vector2 DIRECCION_DERECHA = new Vector2(0, 5);
+	private static final Vector2 DIRECCION_IZQUIERDA = new Vector2(0, -5);
 	private Vector2 direccionProyectil = DIRECCION_DERECHA;
-	
-	
+
 	private OrthoCamera camera;
 
 	/**
@@ -108,6 +108,11 @@ public class AnimatedPlayer extends Entity {
 		Gdx.input.setInputProcessor(stage);
 	}
 
+	// reload support
+	boolean reloading = false;
+	int timeToReload = 0;
+	long initialTime = 0;
+
 	@Override
 	public void update() {
 
@@ -123,25 +128,36 @@ public class AnimatedPlayer extends Entity {
 		if (currentFrame == null) {
 			currentFrame = playerUpAnimation.getKeyFrame(stateTime, true); // #16
 		}
-		
+
 		if (touchpad.getKnobPercentY() < 0) {
 			// face down
 			currentFrame = playerDownAnimation.getKeyFrame(stateTime, true);
 		}
-		
+
 		if (touchpad.getKnobPercentY() > 0) {
 			// face up
 			currentFrame = playerUpAnimation.getKeyFrame(stateTime, true);
 		}
 		// currentFrame = playerAnimation.getKeyFrame(stateTime, true); // #16
 
+		if (reloading) {
+			if (System.currentTimeMillis() < (initialTime + timeToReload)) {
+				return;
+			} else {
+				reloading = false;
+				currentMagazine = MAGAZINE_SIZE;
+				return;
+			}
+
+		}
+
 		setProyectileDireccion();
-		
+
 		if (Gdx.input.isKeyPressed(Keys.SPACE)) {
-			//disparo principal.
+			// disparo principal.
 			// lose ammo on fire.
 			disparoPrincipal();
-			
+
 		} else if (Gdx.input.isKeyPressed(Keys.A)) {
 			// disparo secundario.
 			// lose ammo on fire.
@@ -150,22 +166,17 @@ public class AnimatedPlayer extends Entity {
 
 		else if (Gdx.input.isKeyPressed(Keys.R)) {
 			// manual reload
-			int timeToReload = (RELOAD_TIME / MAGAZINE_SIZE) * currentMagazine;
-			long initialTime = System.currentTimeMillis();
-			while (System.currentTimeMillis() < (initialTime + timeToReload)) {
-				// do nothing
-				// TODO it does <i>literally nothing</i>, so it stops the main
-				// thread for its duration
-			}
-			currentMagazine = MAGAZINE_SIZE;
+			timeToReload = (RELOAD_TIME / MAGAZINE_SIZE) * currentMagazine;
+			initialTime = System.currentTimeMillis();
+
+			reloading = true;
 		}
 	}
 
 	private void disparoPrincipal() {
-		if (System.currentTimeMillis() - lastFire >= 500
-				&& currentMagazine > 0) {
-			entityManager.addEntity(new Missile(new Vector2(pos.x
-					+ TextureManager.PLAYER.getWidth() / 4, pos.y), direccionProyectil));
+		if (System.currentTimeMillis() - lastFire >= 500 && currentMagazine > 0) {
+			entityManager.addEntity(new Missile(new Vector2(pos.x + width / 4,
+					pos.y), direccionProyectil));
 			lastFire = System.currentTimeMillis();
 			currentMagazine--;
 		} else {
@@ -178,11 +189,10 @@ public class AnimatedPlayer extends Entity {
 	}
 
 	private void disparoSecundario() {
-		if (System.currentTimeMillis() - lastFire >= 500
-				&& currentMagazine > 0) {
-			
-			entityManager.addEntity(new FireBall(new Vector2(pos.x + width
-					/ 4, pos.y), direccionProyectil));
+		if (System.currentTimeMillis() - lastFire >= 500 && currentMagazine > 0) {
+
+			entityManager.addEntity(new FireBall(new Vector2(pos.x + width / 4,
+					pos.y), direccionProyectil));
 			lastFire = System.currentTimeMillis();
 			currentMagazine--;
 		} else {
@@ -195,14 +205,12 @@ public class AnimatedPlayer extends Entity {
 	}
 
 	private void setProyectileDireccion() {
-		if (touchpad.getKnobPercentY() < 0)
-		{
+		if (touchpad.getKnobPercentY() < 0) {
 			direccionProyectil = DIRECCION_IZQUIERDA;
 		}
-		
-		if (touchpad.getKnobPercentY() > 0)
-		{
-			direccionProyectil=DIRECCION_DERECHA;
+
+		if (touchpad.getKnobPercentY() > 0) {
+			direccionProyectil = DIRECCION_DERECHA;
 		}
 	}
 
