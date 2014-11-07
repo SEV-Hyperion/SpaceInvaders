@@ -21,7 +21,11 @@ public class AnimatedPlayer extends Entity {
 	private final int CHARACTER_SPEED = 250;
 	private EntityManager entityManager;
 	private long lastFire;
-
+	private static final Vector2 DIRECCION_DERECHA = new Vector2(0,5);
+	private static final Vector2 DIRECCION_IZQUIERDA = new Vector2(0,-5);
+	private Vector2 direccionProyectil = DIRECCION_DERECHA;
+	
+	
 	private OrthoCamera camera;
 
 	/**
@@ -133,6 +137,7 @@ public class AnimatedPlayer extends Entity {
 			// face up
 			currentFrame = playerUpAnimation.getKeyFrame(stateTime, true);
 		}
+		// currentFrame = playerAnimation.getKeyFrame(stateTime, true); // #16
 
 		if (reloading){
 			if(System.currentTimeMillis() < (initialTime + timeToReload)){
@@ -189,6 +194,51 @@ public class AnimatedPlayer extends Entity {
 //			}
 //			currentMagazine = MAGAZINE_SIZE;
 			reloading=true;
+		}
+	}
+
+	private void disparoPrincipal() {
+		if (System.currentTimeMillis() - lastFire >= 500
+				&& currentMagazine > 0) {
+			entityManager.addEntity(new Missile(new Vector2(pos.x
+					+ TextureManager.PLAYER.getWidth() / 4, pos.y), direccionProyectil));
+			lastFire = System.currentTimeMillis();
+			currentMagazine--;
+		} else {
+			// auto reload
+			if (System.currentTimeMillis() - lastFire >= RELOAD_TIME
+					&& currentMagazine == 0) {
+				currentMagazine = MAGAZINE_SIZE;
+			}
+		}
+	}
+
+	private void disparoSecundario() {
+		if (System.currentTimeMillis() - lastFire >= 500
+				&& currentMagazine > 0) {
+			
+			entityManager.addEntity(new FireBall(new Vector2(pos.x + width
+					/ 4, pos.y), direccionProyectil));
+			lastFire = System.currentTimeMillis();
+			currentMagazine--;
+		} else {
+			// auto reload
+			if (System.currentTimeMillis() - lastFire >= RELOAD_TIME
+					&& currentMagazine == 0) {
+				currentMagazine = MAGAZINE_SIZE;
+			}
+		}
+	}
+
+	private void setProyectileDireccion() {
+		if (touchpad.getKnobPercentY() < 0)
+		{
+			direccionProyectil = DIRECCION_IZQUIERDA;
+		}
+		
+		if (touchpad.getKnobPercentY() > 0)
+		{
+			direccionProyectil=DIRECCION_DERECHA;
 		}
 	}
 
