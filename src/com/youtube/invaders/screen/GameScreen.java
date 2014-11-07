@@ -3,13 +3,10 @@ package com.youtube.invaders.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 import com.youtube.invaders.MainGame;
+import com.youtube.invaders.camera.OrthoCamera;
 import com.youtube.invaders.entity.EntityManager;
-import com.youtube.invaders.entity.player.Player;
-import com.yutube.invaders.camera.OrthoCamera;
 
 public class GameScreen extends Screen {
 
@@ -23,7 +20,7 @@ public class GameScreen extends Screen {
 
 	@Override
 	public void create() {
-		// System.out.println("Created");
+		 System.out.println("Created");
 		camera = new OrthoCamera();
 		entityManager = new EntityManager(MainGame.NUMBER_OF_ENEMIES, camera);
 		gameLoopSound = Gdx.audio.newSound(Gdx.files
@@ -89,6 +86,7 @@ public class GameScreen extends Screen {
 	@Override
 	public void resume() {
 		System.out.println("Resumed");
+
 		gameLoopSound.loop();
 	}
 

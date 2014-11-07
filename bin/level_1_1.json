@@ -1,0 +1,14 @@
+{
+	"title"	:	"Tutorial",
+	"sound"	:	"l2_outro.ogg",
+	"enemies"	:	[
+		{	"type" 	: 	"0",
+			"pos"	:	"1, 1",
+			"dir"	:	"0, 1"
+		},
+		{	"type"	:	"4",
+			"pos"	:	"1, 1",
+			"dir"	:	"0, 1"
+		}
+	]
+}

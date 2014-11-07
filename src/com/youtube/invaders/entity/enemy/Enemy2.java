@@ -11,4 +11,11 @@ public class Enemy2 extends Enemy {
 		speed = 2;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Enemy 2");
+		return sb.toString();
+	}
+
 }

@@ -8,13 +8,14 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.youtube.invaders.MainGame;
 import com.youtube.invaders.TextureManager;
+import com.youtube.invaders.camera.OrthoCamera;
 import com.youtube.invaders.entity.Entity;
 import com.youtube.invaders.entity.EntityManager;
 import com.youtube.invaders.entity.gui.projectiles.Missile;
-import com.yutube.invaders.camera.OrthoCamera;
 
 /**
  * Left in memoriam
+ * 
  * @author Daniel
  *
  */
@@ -62,7 +63,8 @@ public class Player extends Entity {
 			if (System.currentTimeMillis() - lastFire >= 500) {
 
 				entityManager.addEntity(new Missile(new Vector2(pos.x
-						+ TextureManager.PLAYER.getWidth() / 4, pos.y)));
+				// + TextureManager.PLAYER.getWidth() / 4
+						+ 0, pos.y)));
 				lastFire = System.currentTimeMillis();
 			}
 		}

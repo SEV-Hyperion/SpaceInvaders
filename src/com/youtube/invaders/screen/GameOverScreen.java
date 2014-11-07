@@ -1,24 +1,33 @@
 package com.youtube.invaders.screen;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.youtube.invaders.MainGame;
+import com.youtube.invaders.TextureManager;
+import com.youtube.invaders.camera.OrthoCamera;
 import com.youtube.invaders.entity.EntityManager;
-import com.yutube.invaders.camera.OrthoCamera;
 
 public class GameOverScreen extends Screen {
 	private OrthoCamera camera;
 	// private Texture texture;
 	private TextureRegion texture;
+	private boolean won;
 
 	public GameOverScreen(boolean won) {
-
+		this.won = won;
 		if (won) {
-			texture = EntityManager.getAnimatedPlayer().getCurrentFrame();
+			texture = EntityManager.em.getAnimatedPlayer().getCurrentFrame();
+
 		} else {
-			texture = EntityManager.getEnemies().get(0).getCurrentFrame();
+			texture = EntityManager.em.getAnimatedPlayer().getCurrentFrame();
+			// TODO use texture from the killing enemy or the round boss or
+			// anything?
+
 		}
-		MainGame.score = 0;
+		// MainGame.score = 0;
 	}
 
 	@Override
@@ -32,10 +41,25 @@ public class GameOverScreen extends Screen {
 	public void update() {
 
 		camera.update();
+
+		if (Gdx.input.isKeyPressed(Keys.R)) {
+			ScreenManager.setScreen(new AbstractLevel("level_1_1"));
+		}
+		else if(Gdx.input.isKeyPressed(Keys.N)){
+			ScreenManager.setScreen(new AbstractLevel("level_1_2"));
+		}
 	}
 
 	@Override
 	public void render(SpriteBatch sb) {
+
+		if (won) {
+			Gdx.gl.glClearColor(0, 1, 0, 1);
+			Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		} else {
+			Gdx.gl.glClearColor(0, 0, 0, 1);
+			Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		}
 
 		sb.setProjectionMatrix(camera.combined);
 		sb.begin();

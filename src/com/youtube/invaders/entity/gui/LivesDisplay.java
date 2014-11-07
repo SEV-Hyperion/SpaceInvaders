@@ -1,15 +1,12 @@
 package com.youtube.invaders.entity.gui;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.youtube.invaders.MainGame;
-import com.youtube.invaders.TextureManager;
+import com.youtube.invaders.camera.OrthoCamera;
 import com.youtube.invaders.entity.Entity;
 import com.youtube.invaders.entity.EntityManager;
-import com.yutube.invaders.camera.OrthoCamera;
 
 public class LivesDisplay extends Entity {
 
@@ -37,7 +34,7 @@ public class LivesDisplay extends Entity {
 
 	@Override
 	public void update() {
-
+//		System.out.println("Current lives: "+lives);
 	}
 
 	public int getLives() {

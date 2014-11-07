@@ -12,4 +12,11 @@ public class Enemy1 extends Enemy {
 
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Enemy 1");
+		return sb.toString();
+	}
+
 }

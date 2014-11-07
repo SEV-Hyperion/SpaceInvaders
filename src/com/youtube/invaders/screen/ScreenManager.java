@@ -1,5 +1,6 @@
 package com.youtube.invaders.screen;
 
+
 public class ScreenManager {
 
 	public static Screen currentScreen;

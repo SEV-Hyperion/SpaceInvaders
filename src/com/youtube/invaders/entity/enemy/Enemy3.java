@@ -10,5 +10,11 @@ public class Enemy3 extends Enemy {
 		super(pos, direction, path);
 		speed = 3;
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Enemy 3");
+		return sb.toString();}
 
 }

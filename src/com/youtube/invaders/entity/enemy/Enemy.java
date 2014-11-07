@@ -4,9 +4,8 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.youtube.invaders.MainGame;
-import com.youtube.invaders.TextureManager;
 import com.youtube.invaders.entity.Entity;
-import com.youtube.invaders.screen.GameScreen;
+import com.youtube.invaders.entity.EntityManager;
 
 /**
  * Esqueleto base para crear enemigos
@@ -25,10 +24,10 @@ public abstract class Enemy extends Entity {
 	protected float speed = 1;
 
 	private String path = "enemy0.png";
-	private static int width = 43;
-	private static int height = 29;
+	public static int width = 43;
+	public static int height = 29;
 	private static int frameDuration = 1;
-	private Animation enemyAnimation = null;
+	protected Animation enemyAnimation = null;
 
 	/**
 	 * Constructor de enemigos.
@@ -57,9 +56,8 @@ public abstract class Enemy extends Entity {
 	@Override
 	public void update() {
 		pos.add(getNewDirection().mul(speed));
-		if (pos.y <= -TextureManager.ENEMY0.getHeight()) {
-			float x = MathUtils.random(0, MainGame.WIDTH
-					- TextureManager.ENEMY0.getWidth());
+		if (pos.y <= -height) {
+			float x = MathUtils.random(0, MainGame.WIDTH - width);
 
 			pos.set(x, MathUtils.random(MainGame.HEIGHT, MainGame.HEIGHT * 2));
 		}
@@ -74,7 +72,7 @@ public abstract class Enemy extends Entity {
 	 * @return Vector con la nueva direccion del enemigo.
 	 */
 	protected Vector2 getNewDirection() {
-		Vector2 playerPos = GameScreen.getEntityManager().getAnimatedPlayer()
+		Vector2 playerPos = EntityManager.em.getAnimatedPlayer()
 				.getPosition();
 		float playerX = 0;
 		float playerY = 0;
@@ -90,4 +88,16 @@ public abstract class Enemy extends Entity {
 		return newDirection;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Enemy unknown");
+		return sb.toString();
+	}
+
+	@Override
+	protected void finalize() throws Throwable {
+		System.out.println("Destroyed " + toString());
+		super.finalize();
+	}
 }

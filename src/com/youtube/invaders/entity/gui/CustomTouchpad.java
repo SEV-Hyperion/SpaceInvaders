@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.yutube.invaders.camera.OrthoCamera;
+import com.youtube.invaders.camera.OrthoCamera;
 
 public class CustomTouchpad extends Touchpad {
 

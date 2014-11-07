@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.youtube.invaders.screen.AbstractLevel;
 import com.youtube.invaders.screen.GameScreen;
 import com.youtube.invaders.screen.ScreenManager;
 
@@ -15,23 +16,25 @@ public class MainGame implements ApplicationListener {
 
 	public static boolean debugMode = true;
 	// =========================================================================
-	public static boolean drawDebugOutline = false; // Texture atlas Management
+	public static boolean drawDebugOutline = true; // Texture atlas Management
 	public static boolean rebuildAtlas = true; // Texture atlas Management
-	public static final String TEXTURE_ATLAS_OBJECTS = "/images/spaceinvaders.pack";
+//	public static final String TEXTURE_ATLAS_OBJECTS = "/images/spaceinvaders.pack";
 	// =========================================================================
 
 	// =========================================================================
 	// GUI Management
 	public static final float VIEWPORT_GUI_WIDTH = 800.0f;
 	public static final float VIEWPORT_GUI_HEIGHT = 480.0f;
-	public static int score =0;
+	public static int score = 0;
 
 	// =========================================================================
 	// Lives Management
-	public static final int LIVES_START = 5;
+	public static final int LIVES_START = 5;// TODO  level dependent too
 	// Enemies management
-	public static final int NUMBER_OF_ENEMIES = 10;
-	public int lives =0;
+	public static final int NUMBER_OF_ENEMIES = 10; // TODO remove later , it is level dependent
+	
+//	public int lives = 0; // level dependent
+
 	// =========================================================================
 
 	@Override
@@ -39,11 +42,12 @@ public class MainGame implements ApplicationListener {
 
 		// =================================================
 		// Texture Atlas Management
-		TextureManager.instance.init(new AssetManager());
+//		TextureManager.instance.init(new AssetManager());
 		// =================================================
 
 		batch = new SpriteBatch();
-		ScreenManager.setScreen(new GameScreen());
+//		ScreenManager.setScreen(new GameScreen());
+		ScreenManager.setScreen(new AbstractLevel("level_1_1"));//comenzamos por la primera
 
 	}
 
@@ -57,9 +61,10 @@ public class MainGame implements ApplicationListener {
 
 	@Override
 	public void render() {
-		Gdx.gl.glClearColor(0, 1, 0, 1);
-		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+//		Gdx.gl.glClearColor(0, 1, 0, 1);
+//		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 
+		//TODO double check != null ??
 		if (ScreenManager.getCurrentscreen() != null)
 			ScreenManager.getCurrentscreen().update();
 
@@ -67,7 +72,7 @@ public class MainGame implements ApplicationListener {
 			ScreenManager.getCurrentscreen().render(batch);
 		// batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-			// Nothing  right now....
+		// Nothing right now....
 		batch.end();
 	}
 
