@@ -9,9 +9,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.youtube.invaders.MainGame;
+import com.youtube.invaders.TextureManager;
 import com.youtube.invaders.camera.OrthoCamera;
 import com.youtube.invaders.entity.Entity;
 import com.youtube.invaders.entity.EntityManager;
@@ -34,6 +37,7 @@ public class AbstractLevel extends Screen {
 	private String LEVEL = "LEVEL_1_1";
 	private String sound = "sounds/l2outro.ogg";
 	private String title = "Tutorial";
+	private Sprite sprite;
 
 	/**
 	 * 
@@ -52,8 +56,8 @@ public class AbstractLevel extends Screen {
 		// poner el titulo en la barra arriba :D
 		Gdx.graphics.setTitle(title);// TODO remove if necessary
 		entityManager = new EntityManager(entities, camera);
-//		gameLoopSound = Gdx.audio.newSound(Gdx.files.internal(sound));
-//		gameLoopSound.loop();
+		// gameLoopSound = Gdx.audio.newSound(Gdx.files.internal(sound));
+		// gameLoopSound.loop();
 
 		cameraGUI = new OrthographicCamera(MainGame.VIEWPORT_GUI_WIDTH,
 				MainGame.VIEWPORT_GUI_HEIGHT);
@@ -61,6 +65,19 @@ public class AbstractLevel extends Screen {
 		cameraGUI.setToOrtho(true);
 		cameraGUI.update();
 
+		/**
+		 * map support testing
+		 **/
+		TextureRegion region = TextureManager.instance.atlas.findRegion("map");
+
+		sprite = new Sprite(region);
+		sprite.setSize(MainGame.VIEWPORT_GUI_HEIGHT,
+				MainGame.VIEWPORT_GUI_WIDTH);
+		sprite.rotate90(false);
+		sprite.setPosition(0, -MainGame.VIEWPORT_GUI_WIDTH / 2);
+		sprite.setOrigin(MainGame.VIEWPORT_GUI_HEIGHT / 2,
+				MainGame.VIEWPORT_GUI_WIDTH / 2);
+		
 	}
 
 	/**
@@ -74,7 +91,7 @@ public class AbstractLevel extends Screen {
 				LEVEL + ".json").read());
 		JsonObject a = reader.readObject();
 		title = a.getString("title");
-		
+
 		sound = a.getString("sound");
 		JsonArray enemies = a.getJsonArray("enemies");
 		Entity[] entities = new Entity[enemies.size()];
@@ -115,7 +132,7 @@ public class AbstractLevel extends Screen {
 			en = new EnemyWarrior(pos, direction);
 			break;
 		case 5:
-			en =new EnemyWarriorStanding(pos, direction);
+			en = new EnemyWarriorStanding(pos, direction);
 		}
 		return en;
 	}
@@ -138,6 +155,7 @@ public class AbstractLevel extends Screen {
 		sb.setProjectionMatrix(camera.combined);
 		sb.enableBlending(); // Enable blending in the game screen
 		sb.begin();
+		sprite.draw(sb);
 		entityManager.render(sb);
 		sb.end();
 
@@ -159,7 +177,7 @@ public class AbstractLevel extends Screen {
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
-//		gameLoopSound.dispose();
+		// gameLoopSound.dispose();
 		this.camera = null;
 		this.cameraGUI = null;
 		entityManager.dispose();
@@ -168,13 +186,13 @@ public class AbstractLevel extends Screen {
 	@Override
 	public void pause() {
 		// TODO Auto-generated method stub
-//		gameLoopSound.stop();
+		// gameLoopSound.stop();
 	}
 
 	@Override
 	public void resume() {
 		// TODO Auto-generated method stub
-//		gameLoopSound.loop();
+		// gameLoopSound.loop();
 	}
 
 	public static EntityManager getEntityManager() {
