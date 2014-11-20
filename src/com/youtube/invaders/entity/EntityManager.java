@@ -47,6 +47,7 @@ public class EntityManager {
 
 	public static EntityManager em;
 
+	public String nextLevel;
 	public EntityManager(int amount, OrthoCamera camera) {
 		em = this;
 
@@ -105,7 +106,7 @@ public class EntityManager {
 
 	public EntityManager(Entity[] levelEntities, OrthoCamera camera) {
 		em = this;
-		animatedPlayer = new AnimatedPlayer(new Vector2(230, 15), new Vector2(
+		animatedPlayer = new AnimatedPlayer(new Vector2(240, 0), new Vector2(
 				0, 0), this, camera);
 
 		livesDisplay = new LivesDisplay(new Vector2(MainGame.WIDTH / 2,
@@ -186,7 +187,7 @@ public class EntityManager {
 						System.out.println("Enemies remaining: "
 								+ getEnemies().size);
 						// end, Game Won
-						ScreenManager.setScreen(new GameOverScreen(true)); // TODO
+						ScreenManager.setScreen(new GameOverScreen(true, nextLevel)); // TODO
 																			// if
 																			// won,
 																			// show
@@ -217,7 +218,7 @@ public class EntityManager {
 					System.out.println("Enemies remaining: "
 							+ getEnemies().size);
 					// If we ran out of lives, game is over, lost
-					ScreenManager.setScreen(new GameOverScreen(false));// TODO
+					ScreenManager.setScreen(new GameOverScreen(false, nextLevel));// TODO
 																		// ok
 																		// this
 																		// is

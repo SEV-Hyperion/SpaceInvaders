@@ -1,6 +1,8 @@
 {
-	"title"	:	"Tutorial part 3",
+	"title"	:	"Tutorial part 2",
+	"map"	:	"map",
 	"sound"	:	"sounds/l2outro.ogg",
+	"next_level"	:	"level_1_3",
 	"enemies"	:	[
 		{	"type" 	: 	0,
 			"pos"	:	{

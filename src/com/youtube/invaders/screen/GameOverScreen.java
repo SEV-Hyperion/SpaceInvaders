@@ -15,9 +15,11 @@ public class GameOverScreen extends Screen {
 	// private Texture texture;
 	private TextureRegion texture;
 	private boolean won;
+	private String nextLevel;
 
-	public GameOverScreen(boolean won) {
+	public GameOverScreen(boolean won, String nextLevel) {
 		this.won = won;
+		this.nextLevel=nextLevel;
 		if (won) {
 			texture = EntityManager.em.getAnimatedPlayer().getCurrentFrame();
 
@@ -46,7 +48,11 @@ public class GameOverScreen extends Screen {
 			ScreenManager.setScreen(new AbstractLevel("level_1_1"));
 		}
 		else if(Gdx.input.isKeyPressed(Keys.N)){
-			ScreenManager.setScreen(new AbstractLevel("level_1_2"));
+			if(nextLevel!="")
+				ScreenManager.setScreen(new AbstractLevel(nextLevel));
+			else{
+				//de momento nada
+			}
 		}
 	}
 

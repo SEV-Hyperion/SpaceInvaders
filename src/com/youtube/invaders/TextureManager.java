@@ -43,12 +43,16 @@ public class TextureManager implements Disposable, AssetErrorListener {
 
 		this.assetManager = assetManager;
 		assetManager.setErrorListener(this);
-		assetManager.load("images/spaceinvaders.pack", TextureAtlas.class);
+//		assetManager.load("images/spaceinvaders.pack", TextureAtlas.class);
+		assetManager.load("images/arcadia_alpha.pack", TextureAtlas.class);
+		
 		assetManager.finishLoading();
 		// System.out.println("Texture Atlas Correctly Loaded");
-		atlas = assetManager.get("images/spaceinvaders.pack");
+//		atlas = assetManager.get("images/spaceinvaders.pack");
+		atlas = assetManager.get("images/arcadia_alpha.pack");
 		// System.out.println (this.atlas.getRegions().size);
-
+		
+		Texture.setAssetManager(assetManager);
 	}
 
 	@Override
