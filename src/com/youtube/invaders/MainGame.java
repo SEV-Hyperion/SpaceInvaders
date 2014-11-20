@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.youtube.invaders.screen.AbstractLevel;
 import com.youtube.invaders.screen.GameScreen;
@@ -18,7 +19,7 @@ public class MainGame implements ApplicationListener {
 	public static boolean debugMode = true;
 	// =========================================================================
 	public static boolean drawDebugOutline = true; // Texture atlas Management
-	public static boolean rebuildAtlas = false; // Texture atlas Management
+	public static boolean rebuildAtlas = true; // Texture atlas Management
 //	public static final String TEXTURE_ATLAS_OBJECTS = "/images/spaceinvaders.pack";
 	// =========================================================================
 
@@ -48,7 +49,7 @@ public class MainGame implements ApplicationListener {
 
 		batch = new SpriteBatch();
 //		ScreenManager.setScreen(new GameScreen());
-		ScreenManager.setScreen(new AbstractLevel("level_1_2"));//comenzamos por la primera
+		ScreenManager.setScreen(new AbstractLevel("level_1_1"));//comenzamos por la primera
 //		ScreenManager.setScreen(new MainMenuScreen());// comenzamos por el menu principal
 
 	}
@@ -93,6 +94,7 @@ public class MainGame implements ApplicationListener {
 
 	@Override
 	public void resume() {
+		
 
 		if (ScreenManager.getCurrentscreen() != null)
 			ScreenManager.getCurrentscreen().resume();

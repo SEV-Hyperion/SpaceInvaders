@@ -4,8 +4,10 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Vector2;
 import com.youtube.invaders.MainGame;
 import com.youtube.invaders.entity.Entity;
+import com.youtube.invaders.screen.AbstractLevel;
+import com.youtube.invaders.screen.ScreenManager;
 
-public class Projectile extends Entity {
+public abstract class Projectile extends Entity {
 
 	protected Animation animation;
 
@@ -26,7 +28,7 @@ public class Projectile extends Entity {
 	 * @return true si está fuera del mapa, false si esta dentro
 	 */
 	public boolean checkEnd() {
-		if (pos.y > MainGame.HEIGHT
+		if (pos.y > ((AbstractLevel) (ScreenManager.getCurrentscreen())).height
 				+ animation.getKeyFrame(stateTime).getRegionHeight())
 			return true;
 		return false;

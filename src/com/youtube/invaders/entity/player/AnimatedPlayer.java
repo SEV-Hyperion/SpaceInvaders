@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
+import com.youtube.invaders.MainGame;
 import com.youtube.invaders.TextureManager;
 import com.youtube.invaders.camera.OrthoCamera;
 import com.youtube.invaders.entity.Entity;
@@ -120,8 +121,7 @@ public class AnimatedPlayer extends Entity {
 
 		// camera.update();
 
-		setDirection(touchpad.getKnobPercentX() * CHARACTER_SPEED,
-				touchpad.getKnobPercentY() * CHARACTER_SPEED);
+		setBoundedDirection();
 
 		stateTime += Gdx.graphics.getDeltaTime(); // #15
 
@@ -171,6 +171,29 @@ public class AnimatedPlayer extends Entity {
 
 			reloading = true;
 		}
+	}
+
+	/**
+	 * The player won't leave the map.
+	 */
+	private void setBoundedDirection() {
+
+		float x = getPosition().x;
+		float newX = touchpad.getKnobPercentX() * CHARACTER_SPEED;
+//		if (x <= 0) {
+//			newX = 1;
+//		} else if (x >= MainGame.VIEWPORT_GUI_WIDTH) {
+//			newX = - 1;
+//		}
+
+		float y = getPosition().y;
+		float newY = touchpad.getKnobPercentY() * CHARACTER_SPEED;
+//		if (y <= 0){
+//			newY = 1;
+//		}else if (y >= MainGame.VIEWPORT_GUI_HEIGHT) {
+//			newY = -1;
+//		}
+		setDirection(newX, newY);
 	}
 
 	private void disparoPrincipal() {

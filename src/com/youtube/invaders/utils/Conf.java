@@ -36,4 +36,19 @@ private static final String CONF_FILE = "configuration.properties";
 		}
 		return instance;
 	}
+	
+	/**
+	 * Write support 
+	 */
+	
+	public static void write(String key, String value){
+		getInstance().writeProperty(key, value);
+	}
+
+	private void writeProperty(String key, String value) {
+		// TODO Auto-generated method stub
+		properties.setProperty(key, value);
+//		properties.
+	}
+	
 }

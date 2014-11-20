@@ -29,14 +29,20 @@ import com.youtube.invaders.utils.Conf;
 
 public class AbstractLevel extends Screen {
 
+	public int width;
+	public int height;
+	
+	
 	private OrthoCamera camera;
 	private OrthographicCamera cameraGUI;
 	public Sound gameLoopSound;
 	private static EntityManager entityManager = null;
 
-	private String LEVEL = "LEVEL_1_1";
+	private String level = "LEVEL_1_1";
+	private String map = "map_level_1_1";
 	private String sound = "sounds/l2outro.ogg";
 	private String title = "Tutorial";
+	private String nextLevel = "level_1_2";
 	private Sprite sprite;
 
 	/**
@@ -44,7 +50,7 @@ public class AbstractLevel extends Screen {
 	 * @param level
 	 */
 	public AbstractLevel(String level) {
-		LEVEL = level;
+		this.level = level;
 	}
 
 	@Override
@@ -56,6 +62,7 @@ public class AbstractLevel extends Screen {
 		// poner el titulo en la barra arriba :D
 		Gdx.graphics.setTitle(title);// TODO remove if necessary
 		entityManager = new EntityManager(entities, camera);
+		entityManager.nextLevel=nextLevel;
 		// gameLoopSound = Gdx.audio.newSound(Gdx.files.internal(sound));
 		// gameLoopSound.loop();
 
@@ -68,15 +75,16 @@ public class AbstractLevel extends Screen {
 		/**
 		 * map support testing
 		 **/
-		TextureRegion region = TextureManager.instance.atlas.findRegion("map");
-
+		TextureRegion region = TextureManager.instance.atlas.findRegion(map);
 		sprite = new Sprite(region);
-		sprite.setSize(MainGame.VIEWPORT_GUI_HEIGHT,
-				MainGame.VIEWPORT_GUI_WIDTH);
-		sprite.rotate90(false);
+		//sprite.setSize(MainGame.VIEWPORT_GUI_HEIGHT,
+				//MainGame.VIEWPORT_GUI_WIDTH);
+		//sprite.rotate90(false);
 		sprite.setPosition(0, -MainGame.VIEWPORT_GUI_WIDTH / 2);
 		sprite.setOrigin(MainGame.VIEWPORT_GUI_HEIGHT / 2,
 				MainGame.VIEWPORT_GUI_WIDTH / 2);
+		height=sprite.getRegionHeight();
+		width=sprite.getRegionWidth();
 		
 	}
 
@@ -88,11 +96,12 @@ public class AbstractLevel extends Screen {
 	private Entity[] loadLevelInfo() {
 
 		JsonReader reader = Json.createReader(Gdx.files.internal(
-				LEVEL + ".json").read());
+				level + ".json").read());
 		JsonObject a = reader.readObject();
 		title = a.getString("title");
-
+		map=a.getString("map");
 		sound = a.getString("sound");
+		nextLevel=a.getString("next_level");
 		JsonArray enemies = a.getJsonArray("enemies");
 		Entity[] entities = new Entity[enemies.size()];
 		for (int i = 0; i < enemies.size(); i++) {
