@@ -48,7 +48,7 @@ public class GameOverScreen extends Screen {
 			ScreenManager.setScreen(new AbstractLevel("level_1_1"));
 		}
 		else if(Gdx.input.isKeyPressed(Keys.N)){
-			if(nextLevel!="")
+			if(nextLevel!="" && !nextLevel.isEmpty())
 				ScreenManager.setScreen(new AbstractLevel(nextLevel));
 			else{
 				//de momento nada
