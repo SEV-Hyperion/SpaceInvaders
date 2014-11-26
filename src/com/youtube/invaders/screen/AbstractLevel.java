@@ -29,6 +29,10 @@ import com.youtube.invaders.utils.Conf;
 
 public class AbstractLevel extends Screen {
 
+	public int width;
+	public int height;
+	
+	
 	private OrthoCamera camera;
 	private OrthographicCamera cameraGUI;
 	public Sound gameLoopSound;
@@ -73,12 +77,14 @@ public class AbstractLevel extends Screen {
 		 **/
 		TextureRegion region = TextureManager.instance.atlas.findRegion(map);
 		sprite = new Sprite(region);
-		sprite.setSize(MainGame.VIEWPORT_GUI_HEIGHT,
-				MainGame.VIEWPORT_GUI_WIDTH);
-		sprite.rotate90(false);
+		//sprite.setSize(MainGame.VIEWPORT_GUI_HEIGHT,
+				//MainGame.VIEWPORT_GUI_WIDTH);
+		//sprite.rotate90(false);
 		sprite.setPosition(0, -MainGame.VIEWPORT_GUI_WIDTH / 2);
 		sprite.setOrigin(MainGame.VIEWPORT_GUI_HEIGHT / 2,
 				MainGame.VIEWPORT_GUI_WIDTH / 2);
+		height=sprite.getRegionHeight();
+		width=sprite.getRegionWidth();
 		
 	}
 
