@@ -1,13 +1,9 @@
 package com.youtube.invaders;
 
 import com.badlogic.gdx.ApplicationListener;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.youtube.invaders.screen.AbstractLevel;
-import com.youtube.invaders.screen.GameScreen;
 import com.youtube.invaders.screen.MainMenuScreen;
 import com.youtube.invaders.screen.ScreenManager;
 
@@ -20,14 +16,13 @@ public class MainGame implements ApplicationListener {
 	// =========================================================================
 	public static boolean drawDebugOutline = true; // Texture atlas Management
 	public static boolean rebuildAtlas = true; // Texture atlas Management
-//	public static final String TEXTURE_ATLAS_OBJECTS = "/images/spaceinvaders.pack";
+//	public static final String TEXTURE_ATLAS_OBJECTS = "/images/aracadia_alpha.pack";
 	// =========================================================================
 
 	// =========================================================================
 	// GUI Management
 	public static final float VIEWPORT_GUI_WIDTH = 800.0f;
 	public static final float VIEWPORT_GUI_HEIGHT = 480.0f;
-	public static int score = 0;
 
 	// =========================================================================
 	// Lives Management
@@ -48,9 +43,8 @@ public class MainGame implements ApplicationListener {
 		// =================================================
 
 		batch = new SpriteBatch();
-//		ScreenManager.setScreen(new GameScreen());
-		ScreenManager.setScreen(new AbstractLevel("level_1_1"));//comenzamos por la primera
-//		ScreenManager.setScreen(new MainMenuScreen());// comenzamos por el menu principal
+		ScreenManager.setScreen(new MainMenuScreen());//comenzamos por el menu
+//		ScreenManager.setScreen(new AbstractLevel("level_1_1"));//comenzamos por la primera
 
 	}
 

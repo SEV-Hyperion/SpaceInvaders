@@ -25,14 +25,15 @@ import com.youtube.invaders.entity.enemy.Enemy2;
 import com.youtube.invaders.entity.enemy.Enemy3;
 import com.youtube.invaders.entity.enemy.EnemyWarrior;
 import com.youtube.invaders.entity.enemy.EnemyWarriorStanding;
+import com.youtube.invaders.entity.gui.LivesDisplay;
+import com.youtube.invaders.entity.player.AnimatedPlayer;
 import com.youtube.invaders.utils.Conf;
 
 public class AbstractLevel extends Screen {
 
 	public int width;
 	public int height;
-	
-	
+
 	private OrthoCamera camera;
 	private OrthographicCamera cameraGUI;
 	public Sound gameLoopSound;
@@ -46,6 +47,7 @@ public class AbstractLevel extends Screen {
 	private Sprite sprite;
 
 	/**
+	 * Create a screen with indicated LEVEL.
 	 * 
 	 * @param level
 	 */
@@ -62,7 +64,7 @@ public class AbstractLevel extends Screen {
 		// poner el titulo en la barra arriba :D
 		Gdx.graphics.setTitle(title);// TODO remove if necessary
 		entityManager = new EntityManager(entities, camera);
-		entityManager.nextLevel=nextLevel;
+		entityManager.nextLevel = nextLevel;
 		// gameLoopSound = Gdx.audio.newSound(Gdx.files.internal(sound));
 		// gameLoopSound.loop();
 
@@ -77,15 +79,15 @@ public class AbstractLevel extends Screen {
 		 **/
 		TextureRegion region = TextureManager.instance.atlas.findRegion(map);
 		sprite = new Sprite(region);
-		//sprite.setSize(MainGame.VIEWPORT_GUI_HEIGHT,
-				//MainGame.VIEWPORT_GUI_WIDTH);
-		//sprite.rotate90(false);
+		// sprite.setSize(MainGame.VIEWPORT_GUI_HEIGHT,
+		// MainGame.VIEWPORT_GUI_WIDTH);
+		// sprite.rotate90(false);
 		sprite.setPosition(0, -MainGame.VIEWPORT_GUI_WIDTH / 2);
 		sprite.setOrigin(MainGame.VIEWPORT_GUI_HEIGHT / 2,
 				MainGame.VIEWPORT_GUI_WIDTH / 2);
-		height=sprite.getRegionHeight();
-		width=sprite.getRegionWidth();
-		
+		height = sprite.getRegionHeight();
+		width = sprite.getRegionWidth();
+
 	}
 
 	/**
@@ -99,9 +101,9 @@ public class AbstractLevel extends Screen {
 				level + ".json").read());
 		JsonObject a = reader.readObject();
 		title = a.getString("title");
-		map=a.getString("map");
+		map = a.getString("map");
 		sound = a.getString("sound");
-		nextLevel=a.getString("next_level");
+		nextLevel = a.getString("next_level");
 		JsonArray enemies = a.getJsonArray("enemies");
 		Entity[] entities = new Entity[enemies.size()];
 		for (int i = 0; i < enemies.size(); i++) {
@@ -114,15 +116,23 @@ public class AbstractLevel extends Screen {
 			int dir_x = dir.getInt("x");
 			int dir_y = dir.getInt("y");
 
-			entities[i] = loadEnemy(type, new Vector2(pos_x, pos_y),
+			entities[i] = loadEntity(type, new Vector2(pos_x, pos_y),
 					new Vector2(dir_x, dir_y));
 		}
 
 		return entities;
 	}
 
-	private Enemy loadEnemy(int type, Vector2 pos, Vector2 direction) {
-		Enemy en = null;
+	/**
+	 * 
+	 * @param type
+	 *            positive: enemies; negative: players and stuff.
+	 * @param pos
+	 * @param direction
+	 * @return
+	 */
+	private Entity loadEntity(int type, Vector2 pos, Vector2 direction) {
+		Entity en = null;
 		System.out.println("Creating enemy type: " + type);
 		switch (type) {
 		case 0:
@@ -142,6 +152,18 @@ public class AbstractLevel extends Screen {
 			break;
 		case 5:
 			en = new EnemyWarriorStanding(pos, direction);
+			break;
+		case -1:
+			en = new AnimatedPlayer(pos, direction, entityManager, camera);
+			break;
+		case -100:
+			en = new LivesDisplay(new Vector2(MainGame.WIDTH / 2,
+					MainGame.HEIGHT
+							- (TextureManager.instance.atlas
+									.findRegion("lives_display")
+									.getRegionHeight())), new Vector2(0, 0),
+					entityManager, camera);
+			break;
 		}
 		return en;
 	}

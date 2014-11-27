@@ -36,94 +36,90 @@ import com.youtube.invaders.screen.ScreenManager;
 
 public class EntityManager {
 
-	public Entity animatedPlayer;
-	LivesDisplay livesDisplay;
-	TextGUI textGUI;
+	private Entity animatedPlayer;
+	private LivesDisplay livesDisplay;
 
 	public Sound killed, hit;
-	// public AssetFonts fonts;
 
 	private Array<Entity> entities = new Array<Entity>();
 
 	public static EntityManager em;
 
 	public String nextLevel;
-	public EntityManager(int amount, OrthoCamera camera) {
-		em = this;
 
-		animatedPlayer = new AnimatedPlayer(new Vector2(230, 15), new Vector2(
-				0, 0), this, camera);
-
-		livesDisplay = new LivesDisplay(new Vector2(MainGame.WIDTH / 2,
-				MainGame.HEIGHT
-						- ((int) (1.5 * animatedPlayer.currentFrame
-								.getRegionHeight()))), new Vector2(0, 0), this,
-				camera);
-
-		textGUI = new TextGUI(
-				new Vector2(MainGame.WIDTH / 2,
-						MainGame.HEIGHT
-								- ((int) (1.5 * animatedPlayer.currentFrame
-										.getRegionHeight()))),
-				new Vector2(0, 0));
-
-		killed = Gdx.audio.newSound(Gdx.files.internal("sounds/killed.mp3"));
-		hit = Gdx.audio.newSound(Gdx.files.internal("sounds/hit.mp3"));
-
-		for (int i = 0; i < amount; i++) {
-			float x = MathUtils.random(0, MainGame.WIDTH - Enemy.height);
-			float y = (MathUtils.random(MainGame.HEIGHT, MainGame.HEIGHT * 10));
-
-			float speed = MathUtils.random(2, 5);
-			int type = MathUtils.random(0, 5);
-			Enemy enemy;
-			switch (type) {
-			case 0:
-				enemy = new Enemy0(new Vector2(x, y), new Vector2(0, -speed));
-				break;
-			case 1:
-				enemy = new Enemy1(new Vector2(x, y), new Vector2(0, -speed));
-				break;
-			case 2:
-				enemy = new Enemy2(new Vector2(x, y), new Vector2(0, -speed));
-				break;
-			case 3:
-				enemy = new Enemy3(new Vector2(x, y), new Vector2(0, -speed));
-				break;
-			case 4:
-				enemy = new EnemyWarrior(new Vector2(x, y), new Vector2(0,
-						-speed));
-			default:
-				enemy = new EnemyWarrior(new Vector2(x, y), new Vector2(0,
-						-speed));
-
-			}
-			entities.add(enemy);
-		}
-
-		// fonts = new AssetFonts();
-	}
+	// public EntityManager(int amount, OrthoCamera camera) {
+	// em = this;
+	//
+	// animatedPlayer = new AnimatedPlayer(new Vector2(230, 15), new Vector2(
+	// 0, 0), this, camera);
+	//
+	// livesDisplay = new LivesDisplay(new Vector2(MainGame.WIDTH / 2,
+	// MainGame.HEIGHT
+	// - ((int) (1.5 * animatedPlayer.currentFrame
+	// .getRegionHeight()))), new Vector2(0, 0), this,
+	// camera);
+	//
+	// textGUI = new TextGUI(
+	// new Vector2(MainGame.WIDTH / 2,
+	// MainGame.HEIGHT
+	// - ((int) (1.5 * animatedPlayer.currentFrame
+	// .getRegionHeight()))),
+	// new Vector2(0, 0));
+	//
+	// killed = Gdx.audio.newSound(Gdx.files.internal("sounds/killed.mp3"));
+	// hit = Gdx.audio.newSound(Gdx.files.internal("sounds/hit.mp3"));
+	//
+	// for (int i = 0; i < amount; i++) {
+	// float x = MathUtils.random(0, MainGame.WIDTH - Enemy.height);
+	// float y = (MathUtils.random(MainGame.HEIGHT, MainGame.HEIGHT * 10));
+	//
+	// float speed = MathUtils.random(2, 5);
+	// int type = MathUtils.random(0, 5);
+	// Enemy enemy;
+	// switch (type) {
+	// case 0:
+	// enemy = new Enemy0(new Vector2(x, y), new Vector2(0, -speed));
+	// break;
+	// case 1:
+	// enemy = new Enemy1(new Vector2(x, y), new Vector2(0, -speed));
+	// break;
+	// case 2:
+	// enemy = new Enemy2(new Vector2(x, y), new Vector2(0, -speed));
+	// break;
+	// case 3:
+	// enemy = new Enemy3(new Vector2(x, y), new Vector2(0, -speed));
+	// break;
+	// case 4:
+	// enemy = new EnemyWarrior(new Vector2(x, y), new Vector2(0,
+	// -speed));
+	// default:
+	// enemy = new EnemyWarrior(new Vector2(x, y), new Vector2(0,
+	// -speed));
+	//
+	// }
+	// entities.add(enemy);
+	// }
+	//
+	// // fonts = new AssetFonts();
+	// }
 
 	public EntityManager(Entity[] levelEntities, OrthoCamera camera) {
 		em = this;
-		animatedPlayer = new AnimatedPlayer(new Vector2(240, 0), new Vector2(
-				0, 0), this, camera);
 
-		livesDisplay = new LivesDisplay(new Vector2(MainGame.WIDTH / 2,
-				MainGame.HEIGHT
-						- ((int) (1.5 * animatedPlayer.currentFrame
-								.getRegionHeight()))), new Vector2(0, 0), this,
-				camera);
+		// TODO extract animatedPlayer and livesDisplay
+		// animatedPlayer = new AnimatedPlayer(new Vector2(240, 0), new Vector2(
+		// 0, 0), this, camera);
 
-		// textGUI = new TextGUI(
-		// new Vector2(MainGame.WIDTH / 2,
+		// livesDisplay = new LivesDisplay(new Vector2(MainGame.WIDTH / 2,
 		// MainGame.HEIGHT
 		// - ((int) (1.5 * animatedPlayer.currentFrame
-		// .getRegionHeight()))),
-		// new Vector2(0, 0));
+		// .getRegionHeight()))), new Vector2(0, 0), this,
+		// camera);
 
+		// TODO extract this out to somewhere more fitting
 		killed = Gdx.audio.newSound(Gdx.files.internal("sounds/killed.mp3"));
 		hit = Gdx.audio.newSound(Gdx.files.internal("sounds/hit.mp3"));
+
 		System.out.println("Entities on array PRE: " + entities.size);
 		entities.clear();
 		entities.addAll(levelEntities);
@@ -137,9 +133,6 @@ public class EntityManager {
 	public void update() {
 		for (Entity e : entities)
 			e.update();
-		animatedPlayer.update();
-		livesDisplay.update();
-		// textGUI.update();
 		checkCollisions();
 	}
 
@@ -155,11 +148,6 @@ public class EntityManager {
 		for (Projectile p : getProjectiles())
 			if (p.checkEnd())
 				entities.removeValue(p, false);
-
-		animatedPlayer.render(sb);
-		livesDisplay.render(sb);
-		// textGUI.render(sb);
-
 	}
 
 	/**
@@ -176,54 +164,56 @@ public class EntityManager {
 							+ getEnemies().size);
 					entities.removeValue(e, false);
 					entities.removeValue(m, false); // destroy missile on hit
-					MainGame.score += 1;
+//					MainGame.score += 1;//TODO replace the static score with another thing :S
 					killed.play();
 					System.out.println("Enemies remaining POST: "
 							+ getEnemies().size);
 					if (getEnemies().size <= 0) {
 						killed.dispose();
 						System.out.println("Won with "
-								+ livesDisplay.getLives() + " lives");
+								+ getLivesDisplay().getLives() + " lives");
 						System.out.println("Enemies remaining: "
 								+ getEnemies().size);
 						// end, Game Won
-						ScreenManager.setScreen(new GameOverScreen(true, nextLevel)); // TODO
-																			// if
-																			// won,
-																			// show
-																			// winning
-																			// screen
-																			// and
-																			// send
-																			// to
-																			// NEXT_LEVEL
+						ScreenManager.setScreen(new GameOverScreen(true,
+								nextLevel)); // TODO
+						// if
+						// won,
+						// show
+						// winning
+						// screen
+						// and
+						// send
+						// to
+						// NEXT_LEVEL
 						return;
 					}
 				}
 			}
 
-			if (e.getBounds().overlaps(animatedPlayer.getBounds())) {
+			if (e.getBounds().overlaps(getAnimatedPlayer().getBounds())) {
 				// Collision with enemy. Decrement Live Counter and erase enemy
 				System.out.println("Hit by " + e);
 				e.pos = new Vector2(800, 800);
 				// entities.removeValue(e, false);
-				System.out.println("You have " + livesDisplay.getLives()
+				System.out.println("You have " + getLivesDisplay().getLives()
 						+ " lives");
 
-				livesDisplay.setLives(livesDisplay.getLives() - 1);
+				getLivesDisplay().setLives(getLivesDisplay().getLives() - 1);
 				hit.play();
-				if (livesDisplay.getLives() == 0) {
-					System.out.println("Lost with " + livesDisplay.getLives()
-							+ " lives");
+				if (getLivesDisplay().getLives() == 0) {
+					System.out.println("Lost with "
+							+ getLivesDisplay().getLives() + " lives");
 					System.out.println("Enemies remaining: "
 							+ getEnemies().size);
 					// If we ran out of lives, game is over, lost
-					ScreenManager.setScreen(new GameOverScreen(false, nextLevel));// TODO
-																		// ok
-																		// this
-																		// is
-																		// correct
-																		// behaviour
+					ScreenManager
+							.setScreen(new GameOverScreen(false, nextLevel));// TODO
+					// ok
+					// this
+					// is
+					// correct
+					// behaviour
 					return;
 				}
 			}
@@ -265,7 +255,7 @@ public class EntityManager {
 	 *         otro caso.
 	 */
 	public boolean gameOver() {
-		return ((getEnemies().size <= 0) || (livesDisplay.getLives() == 0));
+		return ((getEnemies().size <= 0) || (getLivesDisplay().getLives() == 0));
 	}
 
 	/**
@@ -284,8 +274,6 @@ public class EntityManager {
 	public void dispose() {
 		this.entities.clear();
 		this.entities = null;
-		this.animatedPlayer = null;
-		this.livesDisplay = null;
 	}
 
 	// GUI Management
@@ -309,7 +297,28 @@ public class EntityManager {
 	 * @return
 	 */
 	public Entity getAnimatedPlayer() {
+		// TODO use memoization?
+		if (animatedPlayer != null) {
+			return animatedPlayer;
+		}
+		for (Entity en : entities) {
+			if (en instanceof AnimatedPlayer) {
+				animatedPlayer = (AnimatedPlayer) en;
+			}
+		}
 		return animatedPlayer;
+	}
+
+	private void setAnimatedPlayer(Entity animatedPlayer) {
+		this.animatedPlayer = animatedPlayer;
+	}
+
+	private LivesDisplay getLivesDisplay() {
+		return livesDisplay;
+	}
+
+	private void setLivesDisplay(LivesDisplay livesDisplay) {
+		this.livesDisplay = livesDisplay;
 	}
 
 }

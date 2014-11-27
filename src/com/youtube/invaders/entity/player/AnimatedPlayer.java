@@ -83,6 +83,8 @@ public class AnimatedPlayer extends Entity {
 		this.entityManager = entityManager;
 		this.camera = camera;
 
+		// TODO change how the loadAnimationMethods work. They should use
+		// TextureManager instead of loading the texture directly.
 		playerUpAnimation = loadComplexAnimation(pathsUpAnimation, 32, 32,
 				frameDuration);
 
@@ -180,19 +182,19 @@ public class AnimatedPlayer extends Entity {
 
 		float x = getPosition().x;
 		float newX = touchpad.getKnobPercentX() * CHARACTER_SPEED;
-//		if (x <= 0) {
-//			newX = 1;
-//		} else if (x >= MainGame.VIEWPORT_GUI_WIDTH) {
-//			newX = - 1;
-//		}
+		// if (x <= 0) {
+		// newX = 1;
+		// } else if (x >= MainGame.VIEWPORT_GUI_WIDTH) {
+		// newX = - 1;
+		// }
 
 		float y = getPosition().y;
 		float newY = touchpad.getKnobPercentY() * CHARACTER_SPEED;
-//		if (y <= 0){
-//			newY = 1;
-//		}else if (y >= MainGame.VIEWPORT_GUI_HEIGHT) {
-//			newY = -1;
-//		}
+		// if (y <= 0){
+		// newY = 1;
+		// }else if (y >= MainGame.VIEWPORT_GUI_HEIGHT) {
+		// newY = -1;
+		// }
 		setDirection(newX, newY);
 	}
 

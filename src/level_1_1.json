@@ -3,6 +3,18 @@
 	"map"	:	"map_level1.1",
 	"sound"	:	"sounds/l2outro.ogg",
 	"next_level"	:	"level_1_2",
+	"player"	:	{
+		"pos"	:	{
+				"x" : 240,
+				"y" : 0
+				},
+		"dir"	:	{
+				"x" : 0,
+				"y" : 0
+				},
+		"lives"	:	5
+		},
+
 	"enemies"	:	[
 		{	"type" 	: 	5,
 			"pos"	:	{

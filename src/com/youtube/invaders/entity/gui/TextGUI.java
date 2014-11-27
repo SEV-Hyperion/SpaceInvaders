@@ -47,7 +47,7 @@ public class TextGUI extends Entity {
 			fonts.font.draw(sb, "FPS: " + fps, 10, 300);
 		}
 		fonts.font.setColor(0, 1, 1, 1);
-		fonts.font.draw(sb, "Score: " + MainGame.score, 10, 780);
+//		fonts.font.draw(sb, "Score: " + MainGame.score, 10, 780);
 	}
 
 	public void dispose() {
