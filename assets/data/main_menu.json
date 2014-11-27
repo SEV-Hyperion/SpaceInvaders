@@ -1,0 +1,8 @@
+{
+	"title"	:	"Main menu",
+	"map"	:	"map",
+	"sound"	:	"sounds/majoras-theme.mp3",
+	"next_level"	:	"level_1_1",
+	"player"	: {},
+	"enemies"	:	[]
+}

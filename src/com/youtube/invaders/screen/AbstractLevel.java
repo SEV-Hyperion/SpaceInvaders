@@ -104,10 +104,10 @@ public class AbstractLevel extends Screen {
 		map = a.getString("map");
 		sound = a.getString("sound");
 		nextLevel = a.getString("next_level");
-		JsonArray enemies = a.getJsonArray("enemies");
-		Entity[] entities = new Entity[enemies.size()];
-		for (int i = 0; i < enemies.size(); i++) {
-			JsonObject o = enemies.getJsonObject(i);
+		JsonArray entities = a.getJsonArray("entities");
+		Entity[] entities = new Entity[entities.size()];
+		for (int i = 0; i < entities.size(); i++) {
+			JsonObject o = entities.getJsonObject(i);
 			int type = o.getInt("type");
 			JsonObject pos = o.getJsonObject("pos");
 			int pos_x = pos.getInt("x");
@@ -115,7 +115,9 @@ public class AbstractLevel extends Screen {
 			JsonObject dir = o.getJsonObject("dir");
 			int dir_x = dir.getInt("x");
 			int dir_y = dir.getInt("y");
-
+			if(type == -1){
+				lives = o.getInt("lives");
+			}
 			entities[i] = loadEntity(type, new Vector2(pos_x, pos_y),
 					new Vector2(dir_x, dir_y));
 		}

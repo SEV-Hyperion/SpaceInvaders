@@ -15,7 +15,7 @@ public class MainGame implements ApplicationListener {
 	public static boolean debugMode = true;
 	// =========================================================================
 	public static boolean drawDebugOutline = true; // Texture atlas Management
-	public static boolean rebuildAtlas = true; // Texture atlas Management
+	public static boolean rebuildAtlas = false; // Texture atlas Management
 //	public static final String TEXTURE_ATLAS_OBJECTS = "/images/aracadia_alpha.pack";
 	// =========================================================================
 
@@ -43,8 +43,8 @@ public class MainGame implements ApplicationListener {
 		// =================================================
 
 		batch = new SpriteBatch();
-		ScreenManager.setScreen(new MainMenuScreen());//comenzamos por el menu
-//		ScreenManager.setScreen(new AbstractLevel("level_1_1"));//comenzamos por la primera
+//		ScreenManager.setScreen(new MainMenuScreen());//comenzamos por el menu
+		ScreenManager.setScreen(new AbstractLevel("level_1_1"));//comenzamos por la primera
 
 	}
 
